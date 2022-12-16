@@ -11,8 +11,12 @@ class TableController extends GetxController {
   late bool enableDelete;
   late bool enableEdit;
   late bool enableView;
-  late int page;
+  late Function? transformRow;
+
+  int page;
   late List<String>? headers;
+  Map<String, dynamic> args;
+
   var authProv = Get.find<AuthProvider>();
 
   var visibleHeaders = [].obs;
@@ -25,11 +29,15 @@ class TableController extends GetxController {
     this.enableDelete = false,
     this.headers,
     this.enableEdit = false,
+    this.transformRow,
+    this.args = const {},
     this.enableView = false,
   });
 
   var results = [].obs;
   var isLoading = false.obs;
+  var count = 0.obs;
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -41,6 +49,11 @@ class TableController extends GetxController {
   toTileCase(String s) {
     var res = s.replaceAll("_", " ");
     return res.split(" ").map((e) => e.capitalizeFirst).join(" ");
+  }
+
+  Map<String, dynamic> getQueryParams() {
+    dprint("Getting para,");
+    return {"page_size": "${pageSize}", "page": "${page}", ...args};
   }
 
   getHeaders(Map<String, dynamic> row) {
@@ -70,28 +83,40 @@ class TableController extends GetxController {
       isLoading.value = true;
       results.value = [];
       visibleHeaders.value = [];
-      var res = await authProv.formGet(listTypeUrl);
+      dprint("Getting. dara");
+      dprint(getQueryParams());
+      var res = await authProv.formGet(listTypeUrl, query: getQueryParams());
       isLoading.value = false;
       dprint(res.statusCode);
-      // dprint(res.body);
+      dprint(res.body);
       if (successStatusCodes.contains(res.statusCode)) {
         dprint("Status Code success");
         var all = [];
         if (res.body.containsKey("results")) {
           all = res.body["results"] ?? [];
+          count.value = res.body["count"];
         } else {
           all = res.body ?? [];
+          count.value = all.length;
         }
         if (all.length > 0) {
           visibleHeaders.value = getHeaders(all[0]);
           dprint(visibleHeaders);
-          results.value = all;
+
+          results.value = all.map((e) {
+            if (transformRow != null) {
+              return transformRow!(e);
+            }
+            return e;
+          }).toList();
         }
       } else {}
+      return true;
     } catch (e) {
       isLoading.value = false;
       dprint("Failedd");
       dprint(e);
+      return false;
     }
   }
 }

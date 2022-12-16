@@ -22,7 +22,12 @@ class MyTable extends StatelessWidget {
   late bool enableEdit;
   late bool enableView;
   late int page;
+
+  Map<String, dynamic> args;
+
   late MyTableOptions? options;
+
+  late Function? transformRow;
 
   TableController? controller;
   late List<String>? headers;
@@ -40,45 +45,58 @@ class MyTable extends StatelessWidget {
     this.enableDelete = false,
     this.enableEdit = false,
     this.headers,
+    this.args = const {},
+    this.transformRow,
     this.enableView = false,
     this.type = MyTableType.list,
   }) {
     controller = Get.put(
         TableController(
-          listTypeUrl: listTypeUrl,
-          page: page,
-          headers: headers,
-          pageSize: pageSize,
-        ),
+            listTypeUrl: listTypeUrl,
+            page: page,
+            headers: headers,
+            pageSize: pageSize,
+            transformRow: transformRow,
+            args: args),
         tag: name);
   }
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: TextView(
-                  display_message: '@count# @name# ',
-                  data: {"name": name, "count": controller?.results.length}),
+      () => RefreshIndicator(
+        onRefresh: () {
+          return dprint("Hello therre");
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: GestureDetector(
+                onDoubleTap: () async {
+                  await controller!.getData();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: TextView(
+                      display_message: '@count# @name# ',
+                      data: {"name": name, "count": controller?.count}),
+                ),
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: controller!.isLoading.value
-                ? CircularProgressIndicator()
-                : MyTableViewSelector(
-                    controller: controller,
-                    type: type,
-                    options: options,
-                  ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: controller!.isLoading.value
+                  ? CircularProgressIndicator()
+                  : MyTableViewSelector(
+                      controller: controller,
+                      type: type,
+                      options: options,
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -174,8 +192,18 @@ class MyTableListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const defaultSeparator = SizedBox(
+      width: 0,
+      height: 0,
+    );
     return Obx(
-      () => ListView.builder(
+      () => ListView.separated(
+        separatorBuilder: (context, index) {
+          if (options!.separator != null) {
+            return options?.separator ?? defaultSeparator;
+          }
+          return defaultSeparator;
+        },
         shrinkWrap: true,
         physics: options?.physics,
         itemCount: controller?.results.value.length ?? 0,
@@ -183,32 +211,33 @@ class MyTableListView extends StatelessWidget {
           var item = controller?.results.value[index];
           // dprint(options?.imageField);
           // dprint(item[options?.imageField]);
-          return ListTile(
-            leading: item[options?.imageField] != null
-                ? Container(
-                    width: 50,
-                    height: 50,
-                    child:
-                        Image(image: NetworkImage(item[options?.imageField])))
-                : options?.imageField != null
-                    ? Container(
-                        width: 50,
-                        height: 50,
-                      )
-                    : TextView(
-                        display_message: "",
-                      ),
-            title: TextView(
-              display_message: options?.title ?? "Title (No set)",
-              data: item,
-            ),
-            subtitle: TextView(
-              display_message: options?.subtitle ?? "Sub Title (No set)",
-              data: item,
-            ),
-            trailing: TextView(
-              display_message: options?.trailing ?? "Trailing (No set)",
-              data: item,
+          return Padding(
+            padding: options!.itemPadding,
+            child: ListTile(
+              leading: item[options?.imageField] != null
+                  ? Container(
+                      width: 50,
+                      height: 50,
+                      child:
+                          Image(image: NetworkImage(item[options?.imageField])))
+                  : options?.imageField != null
+                      ? Container(
+                          width: 50,
+                          height: 50,
+                        )
+                      : null,
+              title: TextView(
+                display_message: options?.title ?? "Title (No set)",
+                data: item,
+              ),
+              subtitle: TextView(
+                display_message: options?.subtitle ?? "Sub Title (No set)",
+                data: item,
+              ),
+              trailing: TextView(
+                display_message: options?.trailing ?? "Trailing (No set)",
+                data: item,
+              ),
             ),
           );
         },

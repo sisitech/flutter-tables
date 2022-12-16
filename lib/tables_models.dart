@@ -12,11 +12,15 @@ class ListViewOptions extends MyTableOptions {
   late String? subtitle;
   late String? trailing;
   late ScrollPhysics? physics;
+  late EdgeInsetsGeometry itemPadding;
+  late Widget? separator;
   ListViewOptions(
       {this.imageField,
       this.subtitle,
       this.title,
       this.trailing,
+      this.separator,
+      this.itemPadding = const EdgeInsets.symmetric(vertical: 10),
       this.physics = const AlwaysScrollableScrollPhysics()});
 }
 

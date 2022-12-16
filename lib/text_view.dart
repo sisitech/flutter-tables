@@ -74,7 +74,12 @@ class TextView extends StatelessWidget {
       return "@${matchName}# No Data";
     }
     if (data!.containsKey(matchName)) {
-      return data?[matchName];
+      var value = data?[matchName];
+      if (value == null) {
+        dprint("Null value");
+        return "N/A";
+      }
+      return value;
     }
     return "No Idea ${matchName}";
   }

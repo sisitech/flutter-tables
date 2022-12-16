@@ -31,8 +31,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.deepPurple, brightness: Brightness.dark),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -42,7 +41,7 @@ class MyHomePage extends StatelessWidget {
   late String title;
   var data;
   MyHomePage({super.key, required this.title}) {
-    data = {"name": "Mwangi Micha", "age": 20, "title": title};
+    data = {"name": "Mwangi Micha", "age": 30, "title": title};
   }
   @override
   Widget build(BuildContext context) {
@@ -71,17 +70,26 @@ class MyHomePage extends StatelessWidget {
                     children: [
                       MyTable(
                         type: MyTableType.list,
+                        transformRow: (Map<String, dynamic> value) {
+                          if (value.containsKey("name")) {
+                            value["name"] = "Micha " + value["name"];
+                          }
+                          return value;
+                        },
+
                         // options: ListViewOptions(
                         //     title: "Customer @name#",
                         //     subtitle: "@branch_name · @transaction_type_display# ",
                         //     trailing: "KSH @total_price#"),
                         options: ListViewOptions(
                             imageField: "image",
+                            separator: Divider(),
                             title: "Shop @name#",
                             trailing: "@id# Products"
-                                "\nBy @created_by#",
-                            subtitle:
-                                "Managed by @contact_name#\nCall @contact_phone#\n@location#"
+                                "\nBy @created_by#\ndda",
+                            subtitle: "Managed by @contact_name#"
+                                "\nCall @contact_phone#"
+                                "\n@location#"
                                 "\n@created#"),
                         // options: ListViewOptions(),
                         name: 'sales',
