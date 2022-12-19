@@ -77,8 +77,11 @@ class MyTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Column(
+    return Obx(() {
+      dprint("Revuilding with acunt");
+      dprint(controller?.count);
+
+      return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,9 +94,9 @@ class MyTable extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: TextView(
-                    display_message: '@count# @name# ',
-                    style: Get.theme.textTheme.headline6,
-                    data: {"name": name, "count": controller?.count}),
+                  display_message: "${controller?.count} ${name} ",
+                  style: Get.theme.textTheme.headline6,
+                ),
               ),
             ),
           ),
@@ -108,8 +111,8 @@ class MyTable extends StatelessWidget {
                   ),
           ),
         ],
-      ),
-    );
+      );
+    });
   }
 }
 

@@ -170,11 +170,14 @@ class TableController extends GetxController {
                       dprint(delRes.statusCode);
                       if (delRes.statusCode == 204) {
                         dprint("Deleted !!!!");
-                        dprint("COunt at ${results.value.length}");
+                        dprint(
+                            "COunt at ${results.value.length} ${count.value}");
                         results.value = results.value
                             .where((element) => element["id"] != item["id"])
                             .toList();
-                        dprint("Count after ${results.value.length}");
+                        count.value = count.value - 1;
+                        dprint(
+                            "Count After ${results.value.length} ${count.value}");
 
                         Get.back(result: item);
                       } else if (delRes.statusCode == 404) {
