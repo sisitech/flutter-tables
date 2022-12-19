@@ -150,7 +150,9 @@ class TableController extends GetxController {
                   },
             child: Text(
               "Cancel",
-              style: TextStyle(color: Get.theme.errorColor),
+              style: isDeleting.value
+                  ? null
+                  : TextStyle(color: Get.theme.errorColor),
             ),
           );
         }),
@@ -167,10 +169,21 @@ class TableController extends GetxController {
                           getInstanceUrl(), item["id"]);
                       dprint(delRes.statusCode);
                       if (delRes.statusCode == 204) {
+                        dprint("Deleted !!!!");
+                        dprint("COunt at ${results.value.length}");
+                        results.value = results.value
+                            .where((element) => element["id"] != item["id"])
+                            .toList();
+                        dprint("Count after ${results.value.length}");
+
                         Get.back(result: item);
                       } else if (delRes.statusCode == 404) {
                         dprint("not found");
                         deleteErrorMEssage.value = "Item not found";
+                      } else if (delRes.statusCode == 500) {
+                        deleteErrorMEssage.value = "Failed, Contact Admin.";
+                      } else {
+                        dprint(delRes.body);
                       }
                     } catch (e) {
                       isDeleting.value = false;
