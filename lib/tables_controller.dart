@@ -111,9 +111,9 @@ class TableController extends GetxController {
 
   getInstanceUrl() {
     if (instanceUrl != null) {
-      return this.instanceUrl?.toUrlNoSlash();
+      return instanceUrl?.toUrlNoSlash();
     }
-    return this.listTypeUrl?.toUrlNoSlash();
+    return listTypeUrl?.toUrlNoSlash();
   }
 
   deleteItem(Map<String, dynamic> item) async {

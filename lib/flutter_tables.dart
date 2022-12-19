@@ -61,6 +61,7 @@ class MyTable extends StatelessWidget {
     controller = Get.put(
         TableController(
             listTypeUrl: listTypeUrl,
+            instanceUrl: instanceUrl,
             page: page,
             headers: headers,
             pageSize: pageSize,

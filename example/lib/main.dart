@@ -75,6 +75,7 @@ class MyHomePage extends StatelessWidget {
                       MyTable(
                         enableDelete: true,
                         enableEdit: true,
+                        // pageSize: 3,
                         deleteMessageTemplate: "Delete shop @name# ?",
                         type: MyTableType.list,
                         updateWidget: () => SingleSliverBarWidget(),
