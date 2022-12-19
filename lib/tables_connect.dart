@@ -6,10 +6,17 @@ import 'package:flutter_form/utils.dart';
 import 'package:get/get.dart';
 // import 'package:http/http.dart' as http;
 
-class FormProvider extends AuthProvider {
+class TableProvider extends AuthProvider {
   APIConfig? config;
-  FormProvider() {
+  TableProvider() {
     config = Get.find<APIConfig>();
     // dprint(config.toString());
+  }
+
+  Future<Response> tablesDelete(String? path, int id,
+      {contentType = "application/json"}) {
+    var url = "${config!.apiEndpoint}/${path}/${id}/";
+    dprint(url);
+    return delete(url, contentType: contentType);
   }
 }

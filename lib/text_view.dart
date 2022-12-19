@@ -9,21 +9,25 @@ class TextView extends StatelessWidget {
   final Map<String, dynamic>? data;
   final String startFiedSymbol;
   final String endFiedSymbol;
+  final TextStyle? style;
 
-  TextView({
-    super.key,
-    required this.display_message,
-    this.startFiedSymbol = "@",
-    this.endFiedSymbol = "#",
-    this.data,
-  }) {
+  TextView(
+      {super.key,
+      required this.display_message,
+      this.startFiedSymbol = "@",
+      this.endFiedSymbol = "#",
+      this.data,
+      this.style}) {
     // dprint(display_message);
     // dprint(data);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Text(getFieldValue());
+    return Text(
+      getFieldValue(),
+      style: style,
+    );
   }
 
   var charachtersToRemove = [" ", "@", "#"];
