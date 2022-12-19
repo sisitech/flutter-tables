@@ -150,6 +150,7 @@ class TableController extends GetxController {
                   },
             child: Text(
               "Cancel",
+              style: TextStyle(color: Get.theme.errorColor),
             ),
           );
         }),
