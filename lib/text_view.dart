@@ -10,14 +10,21 @@ class TextView extends StatelessWidget {
   final String startFiedSymbol;
   final String endFiedSymbol;
   final TextStyle? style;
+  final TextOverflow? overflow;
+  final int? maxLines;
+  final bool? softWrap;
 
-  TextView(
-      {super.key,
-      required this.display_message,
-      this.startFiedSymbol = "@",
-      this.endFiedSymbol = "#",
-      this.data,
-      this.style}) {
+  TextView({
+    super.key,
+    required this.display_message,
+    this.startFiedSymbol = "@",
+    this.endFiedSymbol = "#",
+    this.data,
+    this.style,
+    this.overflow = TextOverflow.clip,
+    this.maxLines = 2,
+    this.softWrap = false,
+  }) {
     // dprint(display_message);
     // dprint(data);
   }
@@ -27,6 +34,9 @@ class TextView extends StatelessWidget {
     return Text(
       getFieldValue(),
       style: style,
+      overflow: overflow,
+      maxLines: maxLines,
+      softWrap: softWrap,
     );
   }
 

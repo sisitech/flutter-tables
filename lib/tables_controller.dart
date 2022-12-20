@@ -124,6 +124,7 @@ class TableController extends GetxController {
         Card(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 height: 40,
@@ -132,19 +133,32 @@ class TableController extends GetxController {
                 display_message: options?.title ?? "Title",
                 data: item,
                 style: Get.theme.textTheme.headline5,
+                maxLines: 2,
               ),
               Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: TextView(
-                  display_message: options?.subtitle ?? "Sub Title",
-                  data: item,
-                ),
-              ),
+              ...getBottomSheetDetaislTextViews(
+                  item: item, title: options?.subtitle ?? "Sub Title"),
             ],
           ),
         );
     Get.bottomSheet(bottomSheetWidget);
+  }
+
+  getBottomSheetDetaislTextViews(
+      {required Map<String, dynamic> item, required String title}) {
+    return title
+        .split("\n")
+        .map(
+          (message) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: TextView(
+              display_message: message,
+              data: item,
+              maxLines: 30,
+            ),
+          ),
+        )
+        .toList();
   }
 
   deleteItem(Map<String, dynamic> item) async {

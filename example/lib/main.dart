@@ -133,9 +133,11 @@ class MyHomePage extends StatelessWidget {
                         // },
                         options: ListViewOptions(
                             physics: const NeverScrollableScrollPhysics(),
-                            title: "Customer @name#",
-                            subtitle: "Branch: @branch_name#\n@created#",
-                            trailing: "KSH @total_price#"),
+                            title: "Customer 2 @name#",
+                            subtitle: "Branch: @branch_name#"
+                                "\nKSH @total_price#"
+                                "\n@created#",
+                            trailing: ""),
                         name: 'Sales',
                         headers: [
                           'branch_name',
