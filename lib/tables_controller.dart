@@ -20,6 +20,8 @@ class TableController extends GetxController {
   late Function? transformRow;
   late MyTableOptions? options;
 
+  late Widget? bottomSheet;
+
   Function? updateWidget;
 
   late Function? onSelect;
@@ -50,6 +52,7 @@ class TableController extends GetxController {
     this.updateWidget,
     this.args = const {},
     this.selectedItem,
+    this.bottomSheet,
     this.onSelect,
     this.options,
     this.enableView = false,
@@ -114,6 +117,34 @@ class TableController extends GetxController {
       return instanceUrl?.toUrlNoSlash();
     }
     return listTypeUrl?.toUrlNoSlash();
+  }
+
+  showBottomSheet(Map<String, dynamic> item) async {
+    var bottomSheetWidget = bottomSheet ??
+        Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 40,
+              ),
+              TextView(
+                display_message: options?.title ?? "Title",
+                data: item,
+                style: Get.theme.textTheme.headline5,
+              ),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: TextView(
+                  display_message: options?.subtitle ?? "Sub Title",
+                  data: item,
+                ),
+              ),
+            ],
+          ),
+        );
+    Get.bottomSheet(bottomSheetWidget);
   }
 
   deleteItem(Map<String, dynamic> item) async {

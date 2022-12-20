@@ -6,7 +6,10 @@ enum MyTableType { card, table, list }
 
 class MyTableModel {}
 
-class MyTableOptions {}
+class MyTableOptions {
+  late String? title;
+  late String? subtitle;
+}
 
 class ListViewOptions extends MyTableOptions {
   late String? imageField;

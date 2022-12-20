@@ -125,12 +125,12 @@ class MyHomePage extends StatelessWidget {
                       MyTable(
                         type: MyTableType.list,
                         pageSize: 10,
-                        onSelect: (ListViewOptions options,
-                            Map<String, dynamic> item) {
-                          Get.to(SingleSliverBarWidget(),
-                              duration: Duration(seconds: 1),
-                              arguments: {"item": item, "options": options});
-                        },
+                        // onSelect: (ListViewOptions options,
+                        //     Map<String, dynamic> item) {
+                        //   Get.to(SingleSliverBarWidget(),
+                        //       duration: Duration(seconds: 1),
+                        //       arguments: {"item": item, "options": options});
+                        // },
                         options: ListViewOptions(
                             physics: const NeverScrollableScrollPhysics(),
                             title: "Customer @name#",

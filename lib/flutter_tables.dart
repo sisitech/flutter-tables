@@ -38,6 +38,8 @@ class MyTable extends StatelessWidget {
   late MyTableType type;
   Function? updateWidget;
 
+  late Widget? bottomSheet;
+
   MyTable({
     super.key,
     this.enableDelete = false,
@@ -54,6 +56,7 @@ class MyTable extends StatelessWidget {
     this.args = const {},
     this.transformRow,
     this.onSelect,
+    this.bottomSheet,
     this.enableView = false,
     this.type = MyTableType.list,
   }) {
@@ -65,6 +68,7 @@ class MyTable extends StatelessWidget {
             page: page,
             headers: headers,
             pageSize: pageSize,
+            bottomSheet: bottomSheet,
             deleteMessageTemplate: deleteMessageTemplate,
             enableDelete: enableDelete,
             enableEdit: enableEdit,
@@ -229,7 +233,11 @@ class MyTableListView extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               // controller
-              controller!.selectItem(item);
+              if (controller!.onSelect != null) {
+                controller!.selectItem(item);
+              } else {
+                controller!.showBottomSheet(item);
+              }
             },
             child: Padding(
               padding: options!.itemPadding,
