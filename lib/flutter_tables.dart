@@ -38,28 +38,34 @@ class MyTable extends StatelessWidget {
   late MyTableType type;
   Function? updateWidget;
 
+  Function? preUpdate;
+
+  Function? onControllerSetup;
+
   late Widget? bottomSheet;
 
-  MyTable({
-    super.key,
-    this.enableDelete = false,
-    this.enableEdit = false,
-    required this.listTypeUrl,
-    this.instanceUrl,
-    this.pageSize = 10,
-    this.page = 1,
-    required this.name,
-    this.options,
-    this.headers,
-    this.deleteMessageTemplate = "Delete id @id#",
-    this.updateWidget,
-    this.args = const {},
-    this.transformRow,
-    this.onSelect,
-    this.bottomSheet,
-    this.enableView = false,
-    this.type = MyTableType.list,
-  }) {
+  MyTable(
+      {super.key,
+      this.enableDelete = false,
+      this.enableEdit = false,
+      required this.listTypeUrl,
+      this.instanceUrl,
+      this.pageSize = 10,
+      this.page = 1,
+      required this.name,
+      this.options,
+      this.preUpdate,
+      this.headers,
+      this.onControllerSetup,
+      this.deleteMessageTemplate = "Delete id @id#",
+      this.updateWidget,
+      this.args = const {},
+      this.transformRow,
+      this.onSelect,
+      this.bottomSheet,
+      this.enableView = false,
+      this.type = MyTableType.list,
+      TableController? tableController}) {
     dprint("Adding the controller");
     controller = Get.put(
         TableController(
@@ -67,8 +73,10 @@ class MyTable extends StatelessWidget {
             instanceUrl: instanceUrl,
             page: page,
             headers: headers,
+            preUpdate: preUpdate,
             pageSize: pageSize,
             bottomSheet: bottomSheet,
+            onControllerSetup: onControllerSetup,
             deleteMessageTemplate: deleteMessageTemplate,
             enableDelete: enableDelete,
             enableEdit: enableEdit,
@@ -78,6 +86,10 @@ class MyTable extends StatelessWidget {
             transformRow: transformRow,
             args: args),
         tag: name);
+
+    if (onControllerSetup != null) {
+      onControllerSetup!(controller);
+    }
   }
 
   @override
@@ -310,7 +322,17 @@ class MyTableListView extends StatelessWidget {
             onPressed: () {
               if (controller?.updateWidget != null) {
                 final widget = controller?.updateWidget;
-                Get.to(widget!(), arguments: {"item": item});
+                var newItem = item;
+                if (controller?.preUpdate != null) {
+                  final preUp = controller?.preUpdate;
+                  newItem = preUp!(item);
+                  dprint("Got ther following preups");
+                } else {
+                  dprint("No pre update function found");
+                }
+                dprint("The new Value is ");
+                dprint(newItem);
+                Get.to(widget!(), arguments: {"item": newItem});
               } else {
                 dprint("updateWidget not set for edit");
               }

@@ -86,6 +86,23 @@ class MyHomePage extends StatelessWidget {
                           }
                           return value;
                         },
+                        preUpdate: (value) {
+                          dprint("Goe this shoe");
+                          dprint(value);
+                          dprint(value.runtimeType);
+                          dprint(value["id"]);
+                          var name = value?["name"];
+                          var fieldValue = "${value["id"]}";
+                          var multifields = {
+                            "shop": FormChoice(
+                              display_name: name,
+                              value: fieldValue,
+                            )
+                          };
+                          value["multifield"] = multifields;
+                          value["shop"] = "${value["shop"]}";
+                          return value;
+                        },
                         onSelect: (ListViewOptions options,
                             Map<String, dynamic> item) {
                           dprint(item);
@@ -125,6 +142,7 @@ class MyHomePage extends StatelessWidget {
                       MyTable(
                         type: MyTableType.list,
                         pageSize: 10,
+
                         // onSelect: (ListViewOptions options,
                         //     Map<String, dynamic> item) {
                         //   Get.to(SingleSliverBarWidget(),
@@ -136,7 +154,8 @@ class MyHomePage extends StatelessWidget {
                             title: "Customer 2 @name#",
                             subtitle: "Branch: @branch_name#"
                                 "\nKSH @total_price#"
-                                "\n@created#",
+                                "\n@created#"
+                                "\nThemiadaidoa diajod aodnoad adnad nadioad aidoad aidoad adiaod adoadh this is the end of the line.",
                             trailing: ""),
                         name: 'Sales',
                         headers: [

@@ -83,7 +83,7 @@ class SingleSliverBarWidget extends StatelessWidget {
         //     ],
         //   ),
         // ),
-        Text("Tabl 3"),
+        // Text("Tabl 3"),
       ],
       tabs: [
         Tab(

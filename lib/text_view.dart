@@ -23,7 +23,7 @@ class TextView extends StatelessWidget {
     this.style,
     this.overflow = TextOverflow.clip,
     this.maxLines = 2,
-    this.softWrap = false,
+    this.softWrap = true,
   }) {
     // dprint(display_message);
     // dprint(data);

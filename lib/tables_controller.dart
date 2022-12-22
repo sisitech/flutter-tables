@@ -19,6 +19,7 @@ class TableController extends GetxController {
   late bool enableView;
   late Function? transformRow;
   late MyTableOptions? options;
+  Function? preUpdate;
 
   late Widget? bottomSheet;
 
@@ -38,6 +39,7 @@ class TableController extends GetxController {
   var visibleHeaders = [].obs;
 
   var isDeleting = false.obs;
+  Function? onControllerSetup;
 
   TableController({
     required this.listTypeUrl,
@@ -45,6 +47,7 @@ class TableController extends GetxController {
     this.pageSize = 10,
     required this.deleteMessageTemplate,
     this.page = 1,
+    this.onControllerSetup,
     this.enableDelete = false,
     this.headers,
     this.enableEdit = false,
@@ -52,6 +55,7 @@ class TableController extends GetxController {
     this.updateWidget,
     this.args = const {},
     this.selectedItem,
+    this.preUpdate,
     this.bottomSheet,
     this.onSelect,
     this.options,
@@ -129,11 +133,14 @@ class TableController extends GetxController {
               SizedBox(
                 height: 40,
               ),
-              TextView(
-                display_message: options?.title ?? "Title",
-                data: item,
-                style: Get.theme.textTheme.headline5,
-                maxLines: 2,
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextView(
+                  display_message: options?.title ?? "Title",
+                  data: item,
+                  style: Get.theme.textTheme.headline5,
+                  maxLines: 2,
+                ),
               ),
               Divider(),
               ...getBottomSheetDetaislTextViews(
@@ -150,7 +157,7 @@ class TableController extends GetxController {
         .split("\n")
         .map(
           (message) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.all(10),
             child: TextView(
               display_message: message,
               data: item,
