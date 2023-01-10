@@ -11,11 +11,14 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.5
-  flutter_form:
-    path: /Users/mac/MyProjects/Flutter/flutter_form
 
-  flutter_auth:
-    path: /Users/mac/MyProjects/Flutter/flutter_auth
+  flutter_form:
+    git:
+      url: git@github.com:sisitech/flutter-forms.git
+
+  # flutter_auth:
+  #   git:
+  #     url: git@github.com:sisitech/flutter-auth.git
 
 dev_dependencies:
   flutter_test:
