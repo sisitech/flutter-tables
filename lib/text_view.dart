@@ -3,6 +3,7 @@ library flutter_tables;
 import 'package:flutter/material.dart';
 import 'package:flutter_form/utils.dart';
 import 'package:flutter_tables/tables_controller.dart';
+import 'package:intl/intl.dart';
 
 class TextView extends StatelessWidget {
   final String display_message;
@@ -90,9 +91,17 @@ class TextView extends StatelessWidget {
     if (data!.containsKey(matchName)) {
       var value = data?[matchName];
       if (value == null) {
-        dprint("Null value");
+        // dprint("Null value");
         return "N/A";
       }
+      // Apply formatting
+      // dprint(value.runtimeType);
+      if (value.runtimeType == double || value.runtimeType == int) {
+        // dprint("Double detected");
+        var formatter = NumberFormat('###,###');
+        value = formatter.format(value);
+      }
+
       return value;
     }
     return "No Idea ${matchName}";

@@ -16,6 +16,7 @@ dependencies:
 
   flutter_auth:
     path: /Users/mac/MyProjects/Flutter/flutter_auth
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

@@ -71,7 +71,7 @@ class TableController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    dprint("Table controller ");
+    // dprint("Table controller ");
     getData();
   }
 
@@ -81,7 +81,7 @@ class TableController extends GetxController {
   }
 
   Map<String, dynamic> getQueryParams() {
-    dprint("Getting para,");
+    // dprint("Getting para,");
     return {"page_size": "${pageSize}", "page": "${page}", ...args};
   }
 
@@ -107,7 +107,7 @@ class TableController extends GetxController {
       row.forEach((key, value) {
         tableHeaders.add({"name": toTileCase(key), "field": key});
       });
-      dprint(tableHeaders);
+      // dprint(tableHeaders);
       return tableHeaders;
     } catch (e) {
       dprint("Failed parsing table headers");
@@ -121,6 +121,24 @@ class TableController extends GetxController {
       return instanceUrl?.toUrlNoSlash();
     }
     return listTypeUrl?.toUrlNoSlash();
+  }
+
+  updateAddItem(Map<String, dynamic> item, {String field = "id"}) {
+    var resultsTemp = results.value.toList();
+    if (resultsTemp.contains((element) => element?[field] == item?[field])) {
+      // Element found;
+      // dprint("Element found");
+      var index =
+          resultsTemp.indexWhere((element) => element[field] == item[field]);
+      // dprint(index);
+    } else {
+      // Element not founc
+      // dprint("Element not found");
+      resultsTemp.insert(0, item);
+      results.value = resultsTemp; // results.value;
+      count.value = count.value + 1;
+      // dprint("Count $count");
+    }
   }
 
   showBottomSheet(Map<String, dynamic> item) async {
@@ -197,7 +215,7 @@ class TableController extends GetxController {
             onPressed: isDeleting.value
                 ? null
                 : () {
-                    dprint("Canel");
+                    // dprint("Canel");
                     Get.back();
                   },
             child: Text(
@@ -213,7 +231,7 @@ class TableController extends GetxController {
             onPressed: isDeleting.value
                 ? null
                 : () async {
-                    dprint("OK");
+                    // dprint("OK");
                     try {
                       isDeleting.value = true;
                       deleteErrorMEssage.value = "";
@@ -222,18 +240,18 @@ class TableController extends GetxController {
                       dprint(delRes.statusCode);
                       if (delRes.statusCode == 204) {
                         dprint("Deleted !!!!");
-                        dprint(
-                            "COunt at ${results.value.length} ${count.value}");
+                        // dprint(
+                        //     "COunt at ${results.value.length} ${count.value}");
                         results.value = results.value
                             .where((element) => element["id"] != item["id"])
                             .toList();
                         count.value = count.value - 1;
-                        dprint(
-                            "Count After ${results.value.length} ${count.value}");
+                        // dprint(
+                        //     "Count After ${results.value.length} ${count.value}");
 
                         Get.back(result: item);
                       } else if (delRes.statusCode == 404) {
-                        dprint("not found");
+                        // dprint("not found");
                         deleteErrorMEssage.value = "Item not found";
                       } else if (delRes.statusCode == 500) {
                         deleteErrorMEssage.value = "Failed, Contact Admin.";
@@ -259,11 +277,16 @@ class TableController extends GetxController {
     return res;
   }
 
+  resetFetchOpttions() {
+    isLoading.value = true;
+    results.value = [];
+    visibleHeaders.value = [];
+    count.value = 0;
+  }
+
   getData() async {
     try {
-      isLoading.value = true;
-      results.value = [];
-      visibleHeaders.value = [];
+      resetFetchOpttions();
       dprint("Getting. dara");
       dprint(getQueryParams());
       dprint(listTypeUrl);
@@ -272,7 +295,7 @@ class TableController extends GetxController {
       dprint(res.statusCode);
       // dprint(res.body);
       if (successStatusCodes.contains(res.statusCode)) {
-        dprint("Status Code success");
+        // dprint("Status Code success");
         var all = [];
         if (res.body.containsKey("results")) {
           all = res.body["results"] ?? [];

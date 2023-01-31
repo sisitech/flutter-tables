@@ -95,8 +95,8 @@ class MyTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      dprint("Revuilding with acunt");
-      dprint(controller?.count);
+      // dprint("Revuilding with acunt");
+      // dprint(controller?.count);
 
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -217,8 +217,8 @@ class MyTableListView extends StatelessWidget {
     this.controller,
     this.options,
   }) {
-    dprint("Options are");
-    dprint(options);
+    // dprint("Options are");
+    // dprint(options);
   }
 
   @override
@@ -297,8 +297,8 @@ class MyTableListView extends StatelessWidget {
   }
 
   defaultTrailingWIdget(context, TableController? controller, options, item) {
-    dprint(controller?.enableDelete);
-    dprint(controller?.enableEdit);
+    // dprint(controller?.enableDelete);
+    // dprint(controller?.enableEdit);
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -319,7 +319,7 @@ class MyTableListView extends StatelessWidget {
           ),
         if (controller?.enableEdit ?? false)
           OutlinedButton(
-            onPressed: () {
+            onPressed: () async {
               if (controller?.updateWidget != null) {
                 final widget = controller?.updateWidget;
                 var newItem = item;
@@ -332,7 +332,9 @@ class MyTableListView extends StatelessWidget {
                 }
                 dprint("The new Value is ");
                 dprint(newItem);
-                Get.to(widget!(), arguments: {"item": newItem});
+                var res = await Get.to(widget!(), arguments: {"item": newItem});
+                dprint("Got the value");
+                dprint(res);
               } else {
                 dprint("updateWidget not set for edit");
               }
