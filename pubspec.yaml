@@ -1,7 +1,7 @@
 name: flutter_tables
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
+homepage: ada
 
 environment:
   sdk: ">=2.18.5 <3.0.0"
@@ -11,12 +11,14 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.5
+
   flutter_form:
-    path: /Users/mac/MyProjects/Flutter/flutter_form
+    git:
+      url: git@github.com:sisitech/flutter-forms.git
 
   flutter_auth:
-    path: /Users/mac/MyProjects/Flutter/flutter_auth
-  intl: ^0.17.0
+    git:
+      url: git@github.com:sisitech/flutter_auth.git
 
 dev_dependencies:
   flutter_test:
