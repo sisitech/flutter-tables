@@ -88,7 +88,47 @@ class MyHomePage extends StatelessWidget {
                           }
                           return value;
                         },
-                        itemBuilder: (context, index, options) {
+                        data: [
+                          {
+                            "name": "Meiu shop",
+                            "id": 1,
+                          }
+                        ],
+
+                        itemBuilder: (context, item, options) {
+                          // return Card(
+
+                          // )
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: ListTile(
+                              leading: !(options?.imageField != null &&
+                                      item[options?.imageField ?? ""] != null)
+                                  ?
+                                  // Icon(Icons.holiday_village)
+                                  Text(
+                                      item?["name"][0] ?? "",
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : CircleAvatar(
+                                      child: Image.network(
+                                        item[options?.imageField ?? ""] ?? "",
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                              title: TextView(
+                                // data: item,
+                                display_message: options?.title ?? "",
+                              ),
+                              subtitle: TextView(
+                                // data: item,
+                                display_message: options?.subtitle ?? "",
+                              ),
+                            ),
+                          );
                           return Text("${options?.title}");
                         },
                         preUpdate: (value) {
@@ -123,9 +163,10 @@ class MyHomePage extends StatelessWidget {
 
                         options: ListViewOptions(
                             shrinkWrap: true,
+                            // itemPadding: EdgeInsets.zero,
                             imageField: "image",
                             physics: NeverScrollableScrollPhysics(),
-                            separator: Divider(),
+                            // separator: SizedBox(),
                             title: "Shop @name#",
                             trailing: "@id# Products"
                                 "\nBy @created_by#\ndda",

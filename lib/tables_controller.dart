@@ -21,6 +21,7 @@ class TableController extends GetxController {
   late MyTableOptions? options;
   Function? preUpdate;
 
+  late List<Map<String, dynamic>>? data;
   late Widget? bottomSheet;
 
   Function? updateWidget;
@@ -59,6 +60,7 @@ class TableController extends GetxController {
     this.bottomSheet,
     this.onSelect,
     this.options,
+    this.data,
     this.enableView = false,
   });
 
@@ -286,36 +288,41 @@ class TableController extends GetxController {
 
   getData() async {
     try {
-      resetFetchOpttions();
-      dprint("Getting. dara");
-      dprint(getQueryParams());
-      dprint(listTypeUrl);
-      var res = await tableProv.formGet(listTypeUrl, query: getQueryParams());
-      isLoading.value = false;
-      dprint(res.statusCode);
-      // dprint(res.body);
-      if (successStatusCodes.contains(res.statusCode)) {
-        // dprint("Status Code success");
-        var all = [];
-        if (res.body.containsKey("results")) {
-          all = res.body["results"] ?? [];
-          count.value = res.body["count"];
-        } else {
-          all = res.body ?? [];
-          count.value = all.length;
-        }
-        if (all.length > 0) {
-          visibleHeaders.value = getHeaders(all[0]);
-          // dprint(visibleHeaders);
+      if (data != null) {
+        results.value = data!;
+        count.value = data!.length;
+      } else {
+        resetFetchOpttions();
+        dprint("Getting. dara");
+        dprint(getQueryParams());
+        dprint(listTypeUrl);
+        var res = await tableProv.formGet(listTypeUrl, query: getQueryParams());
+        isLoading.value = false;
+        dprint(res.statusCode);
+        // dprint(res.body);
+        if (successStatusCodes.contains(res.statusCode)) {
+          // dprint("Status Code success");
+          var all = [];
+          if (res.body.containsKey("results")) {
+            all = res.body["results"] ?? [];
+            count.value = res.body["count"];
+          } else {
+            all = res.body ?? [];
+            count.value = all.length;
+          }
 
-          results.value = all.map((e) {
-            if (transformRow != null) {
-              return transformRow!(e);
-            }
-            return e;
-          }).toList();
-        }
-      } else {}
+          if (all.length > 0) {
+            visibleHeaders.value = getHeaders(all[0]);
+            // dprint(visibleHeaders);
+            results.value = all.map((e) {
+              if (transformRow != null) {
+                return transformRow!(e);
+              }
+              return e;
+            }).toList();
+          }
+        } else {}
+      }
       return true;
     } catch (e) {
       isLoading.value = false;

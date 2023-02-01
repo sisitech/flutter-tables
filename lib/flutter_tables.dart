@@ -41,6 +41,7 @@ class MyTable extends StatelessWidget {
   Function? updateWidget;
 
   Function? preUpdate;
+  late List<Map<String, dynamic>>? data;
 
   Function? onControllerSetup;
 
@@ -54,6 +55,7 @@ class MyTable extends StatelessWidget {
       this.instanceUrl,
       this.pageSize = 10,
       this.page = 1,
+      this.data,
       this.itemBuilder,
       required this.name,
       this.options,
@@ -75,6 +77,7 @@ class MyTable extends StatelessWidget {
             listTypeUrl: listTypeUrl,
             instanceUrl: instanceUrl,
             page: page,
+            data: data,
             headers: headers,
             preUpdate: preUpdate,
             pageSize: pageSize,
