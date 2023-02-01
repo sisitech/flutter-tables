@@ -35,7 +35,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          primarySwatch: Colors.deepPurple, brightness: Brightness.dark),
+          useMaterial3: true,
+          primarySwatch: Colors.deepPurple,
+          brightness: Brightness.dark),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -85,6 +87,9 @@ class MyHomePage extends StatelessWidget {
                             value["created"] = value["created"].split("T")[0];
                           }
                           return value;
+                        },
+                        itemBuilder: (context, index, options) {
+                          return Text("${options?.title}");
                         },
                         preUpdate: (value) {
                           dprint("Goe this shoe");

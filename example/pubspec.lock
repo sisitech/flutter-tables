@@ -111,11 +111,9 @@ packages:
   flutter_tables:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: a14ee9fe3c96e3365ff70bba8417e87fcca5e950
-      url: "git@github.com:sisitech/flutter-tables.git"
-    source: git
+      path: "/Users/mac/MyProjects/Flutter/flutter_tables"
+      relative: false
+    source: path
     version: "0.0.1"
   flutter_test:
     dependency: "direct dev"

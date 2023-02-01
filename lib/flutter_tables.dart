@@ -23,6 +23,8 @@ class MyTable extends StatelessWidget {
   late bool enableView;
   late int page;
   late Function? onSelect;
+  late Function(BuildContext context, dynamic item, ListViewOptions? options)?
+      itemBuilder;
 
   String deleteMessageTemplate;
 
@@ -52,6 +54,7 @@ class MyTable extends StatelessWidget {
       this.instanceUrl,
       this.pageSize = 10,
       this.page = 1,
+      this.itemBuilder,
       required this.name,
       this.options,
       this.preUpdate,
@@ -123,6 +126,7 @@ class MyTable extends StatelessWidget {
                 ? CircularProgressIndicator()
                 : MyTableViewSelector(
                     controller: controller,
+                    itemBuilder: itemBuilder,
                     type: type,
                     options: options,
                   ),
@@ -137,6 +141,8 @@ class MyTable extends StatelessWidget {
 class MyTableViewSelector extends StatelessWidget {
   TableController? controller;
   late MyTableOptions? options;
+  late Function(BuildContext context, dynamic item, ListViewOptions? options)?
+      itemBuilder;
 
   late MyTableType type;
 
@@ -144,6 +150,7 @@ class MyTableViewSelector extends StatelessWidget {
     super.key,
     this.controller,
     this.options,
+    this.itemBuilder,
     this.type = MyTableType.list,
   });
 
@@ -153,6 +160,7 @@ class MyTableViewSelector extends StatelessWidget {
       case MyTableType.list:
         return MyTableListView(
           controller: controller,
+          itemBuilder: itemBuilder,
           options: options != null ? options as ListViewOptions : null,
         );
         break;
@@ -210,12 +218,16 @@ class MyTableTableView extends StatelessWidget {
 
 class MyTableListView extends StatelessWidget {
   TableController? controller;
+  late Function(BuildContext context, dynamic item, ListViewOptions? options)?
+      itemBuilder;
+
   late ListViewOptions? options;
 
   MyTableListView({
     super.key,
     this.controller,
     this.options,
+    this.itemBuilder,
   }) {
     // dprint("Options are");
     // dprint(options);
@@ -227,6 +239,7 @@ class MyTableListView extends StatelessWidget {
       width: 0,
       height: 0,
     );
+    dprint("FOund the itemBuilder $itemBuilder");
     return Obx(
       () => ListView.separated(
         separatorBuilder: (context, index) {
@@ -251,35 +264,39 @@ class MyTableListView extends StatelessWidget {
                 controller!.showBottomSheet(item);
               }
             },
-            child: Padding(
-              padding: options!.itemPadding,
-              child: ListTile(
-                leading: item[options?.imageField] != null
-                    ? Container(
-                        width: 50,
-                        height: 50,
-                        child: Hero(
-                          tag: "image${item['id']}",
-                          child: Image(
-                              image: NetworkImage(item[options?.imageField])),
-                        ))
-                    : options?.imageField != null
-                        ? Container(
-                            width: 50,
-                            height: 50,
-                          )
-                        : null,
-                title: TextView(
-                  display_message: options?.title ?? "Title (No set)",
-                  data: item,
-                ),
-                subtitle: TextView(
-                  display_message: options?.subtitle ?? "Sub Title (No set)",
-                  data: item,
-                ),
-                trailing: getTrailing(context, controller, options, item),
-              ),
-            ),
+            child: itemBuilder != null
+                ? itemBuilder!(context, item, options)
+                : Padding(
+                    padding: options!.itemPadding,
+                    child: ListTile(
+                      leading: item[options?.imageField] != null
+                          ? Container(
+                              width: 50,
+                              height: 50,
+                              child: Hero(
+                                tag: "image${item['id']}",
+                                child: Image(
+                                    image: NetworkImage(
+                                        item[options?.imageField])),
+                              ))
+                          : options?.imageField != null
+                              ? Container(
+                                  width: 50,
+                                  height: 50,
+                                )
+                              : null,
+                      title: TextView(
+                        display_message: options?.title ?? "Title (No set)",
+                        data: item,
+                      ),
+                      subtitle: TextView(
+                        display_message:
+                            options?.subtitle ?? "Sub Title (No set)",
+                        data: item,
+                      ),
+                      trailing: getTrailing(context, controller, options, item),
+                    ),
+                  ),
           );
         },
       ),
