@@ -2,16 +2,18 @@ import 'package:example/single.dart';
 import 'package:example/sliver_app_bar_single.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/flutter_auth_controller.dart';
-import 'package:flutter_auth/login.dart';
 import 'package:flutter_form/models.dart';
-import 'package:flutter_form/utils.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter_tables/flutter_tables.dart';
-import 'package:flutter_tables/tables_controller.dart';
 import 'package:flutter_tables/tables_models.dart';
 
 import 'package:flutter_tables/text_view.dart';
+import 'package:flutter_utils/flutter_utils.dart';
+import 'package:flutter_utils/models.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+import 'internalization/translate.dart';
 
 void main() async {
   Get.put<APIConfig>(APIConfig(
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
+      translations: AppTranslations(),
+      locale: const Locale('swa', 'KE'),
       theme: ThemeData(
           useMaterial3: true,
           primarySwatch: Colors.deepPurple,

@@ -20,6 +20,10 @@ dependencies:
     git:
       url: git@github.com:sisitech/flutter_auth.git
 
+  flutter_utils:
+    git:
+      url: git@github.com:sisitech/flutter_utils.git
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
