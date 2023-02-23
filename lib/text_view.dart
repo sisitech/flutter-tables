@@ -3,6 +3,7 @@ library flutter_tables;
 import 'package:flutter/material.dart';
 import 'package:flutter_form/utils.dart';
 import 'package:flutter_tables/tables_controller.dart';
+import 'package:flutter_utils/flutter_utils.dart';
 import 'package:intl/intl.dart';
 
 class TextView extends StatelessWidget {
@@ -71,13 +72,16 @@ class TextView extends StatelessWidget {
       },
       // (e) => e.,
     );
-    // dprint(parsedMatches);
+    dprint(parsedMatches);
 
     var parsedMessage = display_message;
+    Map<String, dynamic> matchesMap = {};
     parsedMatches.forEach((value) {
+      matchesMap[value["name"]] = value["value"];
       parsedMessage =
           parsedMessage.replaceAll(value["match"], "${value["value"]}");
     });
+    // dprint(matchesMap);
     // dprint(parsedMessage);
     // dprint(DateTime.now());
     return parsedMessage;

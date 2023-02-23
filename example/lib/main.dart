@@ -43,6 +43,43 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.deepPurple,
           brightness: Brightness.dark),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const MyWidget(),
+    );
+  }
+}
+
+getAppBar(authController, data) => AppBar(
+      title: Text(
+        'Name',
+      ),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            authController.logout();
+          },
+          child: const Text("Logout"),
+        )
+      ],
+    );
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var data = {"name": "Mwangi Micha", "age": 30, "title": "Hello therer"};
+
+    AuthController authController = Get.find<AuthController>();
+
+    return Scaffold(
+      appBar: getAppBar(authController, data),
+      body: SafeArea(
+          child: Center(
+        child: TextView(
+          display_message: "hello_one".tr,
+          data: data,
+        ),
+      )),
     );
   }
 }
@@ -60,20 +97,7 @@ class MyHomePage extends StatelessWidget {
     return Obx(
       () => (authController.isAuthenticated$.value)
           ? Scaffold(
-              appBar: AppBar(
-                title: TextView(
-                  data: data,
-                  display_message: 'Name: @name , Age: @age#Yrs',
-                ),
-                actions: [
-                  ElevatedButton(
-                    onPressed: () {
-                      authController.logout();
-                    },
-                    child: const Text("Logout"),
-                  )
-                ],
-              ),
+              appBar: getAppBar(authController, data),
               body: SingleChildScrollView(
                 child: SafeArea(
                   child: Column(
@@ -81,6 +105,7 @@ class MyHomePage extends StatelessWidget {
                       MyTable(
                         enableDelete: true,
                         enableEdit: true,
+                        showCount: false,
                         // pageSize: 3,
                         deleteMessageTemplate: "Delete shop @name# ?",
                         type: MyTableType.list,
@@ -94,47 +119,54 @@ class MyHomePage extends StatelessWidget {
                         },
                         data: [
                           {
-                            "name": "Meiu shop",
+                            "name": "Meiu",
                             "id": 1,
                           }
                         ],
-
-                        itemBuilder: (context, item, options) {
-                          // return Card(
-
-                          // )
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: ListTile(
-                              leading: !(options?.imageField != null &&
-                                      item[options?.imageField ?? ""] != null)
-                                  ?
-                                  // Icon(Icons.holiday_village)
-                                  Text(
-                                      item?["name"][0] ?? "",
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  : CircleAvatar(
-                                      child: Image.network(
-                                        item[options?.imageField ?? ""] ?? "",
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                              title: TextView(
-                                // data: item,
-                                display_message: options?.title ?? "",
-                              ),
-                              subtitle: TextView(
-                                // data: item,
-                                display_message: options?.subtitle ?? "",
-                              ),
-                            ),
-                          );
-                          return Text("${options?.title}");
-                        },
+                        options: ListViewOptions(
+                          shrinkWrap: true,
+                          // itemPadding: EdgeInsets.zero,
+                          imageField: "image",
+                          physics: NeverScrollableScrollPhysics(),
+                          // separator: SizedBox(),
+                          title: "Shop's name @name#",
+                          trailing: "@id# Products"
+                              "\nBy @created_by#\ndda",
+                          subtitle: "Managed by @contact_name#",
+                        ),
+                        // itemBuilder: (context, item, options) {
+                        //   return Padding(
+                        //     padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        //     child: ListTile(
+                        //       leading: !(options?.imageField != null &&
+                        //               item[options?.imageField ?? ""] != null)
+                        //           ?
+                        //           // Icon(Icons.holiday_village)
+                        //           Text(
+                        //               item?["name"][0] ?? "",
+                        //               style: TextStyle(
+                        //                 fontSize: 30,
+                        //                 fontWeight: FontWeight.bold,
+                        //               ),
+                        //             )
+                        //           : CircleAvatar(
+                        //               child: Image.network(
+                        //                 item[options?.imageField ?? ""] ?? "",
+                        //                 fit: BoxFit.fill,
+                        //               ),
+                        //             ),
+                        //       title: TextView(
+                        //         data: item,
+                        //         display_message: options?.title ?? "",
+                        //       ),
+                        //       subtitle: TextView(
+                        //         data: item,
+                        //         display_message: options?.subtitle ?? "",
+                        //       ),
+                        //     ),
+                        //   );
+                        //   return Text("${options?.title}");
+                        // },
                         preUpdate: (value) {
                           dprint("Goe this shoe");
                           dprint(value);
@@ -165,19 +197,6 @@ class MyHomePage extends StatelessWidget {
                         //     subtitle: "@branch_name · @transaction_type_display# ",
                         //     trailing: "KSH @total_price#"),
 
-                        options: ListViewOptions(
-                            shrinkWrap: true,
-                            // itemPadding: EdgeInsets.zero,
-                            imageField: "image",
-                            physics: NeverScrollableScrollPhysics(),
-                            // separator: SizedBox(),
-                            title: "Shop @name#",
-                            trailing: "@id# Products"
-                                "\nBy @created_by#\ndda",
-                            subtitle: "Managed by @contact_name#"
-                                "\nCall @contact_phone#"
-                                "\n@location#"
-                                "\n@created#"),
                         // options: ListViewOptions(),
 
                         name: 'Shops',

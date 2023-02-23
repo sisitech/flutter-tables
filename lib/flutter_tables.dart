@@ -21,6 +21,7 @@ class MyTable extends StatelessWidget {
   int pageSize;
   late bool enableDelete;
   late bool enableEdit;
+  late bool showCount;
   late bool enableView;
   late int page;
   late Function? onSelect;
@@ -62,6 +63,7 @@ class MyTable extends StatelessWidget {
       this.options,
       this.preUpdate,
       this.headers,
+      this.showCount = true,
       this.onControllerSetup,
       this.deleteMessageTemplate = "Delete id @id#",
       this.updateWidget,
@@ -110,20 +112,21 @@ class MyTable extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: GestureDetector(
-              onDoubleTap: () async {
-                await controller!.getData();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: TextView(
-                  display_message: "${controller?.count} ${name} ",
-                  style: Get.theme.textTheme.headline6,
+          if (showCount)
+            Center(
+              child: GestureDetector(
+                onDoubleTap: () async {
+                  await controller!.getData();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: TextView(
+                    display_message: "${controller?.count} ${name} ".tr,
+                    style: Get.theme.textTheme.headline6,
+                  ),
                 ),
               ),
             ),
-          ),
           Padding(
             padding: EdgeInsets.all(10),
             child: controller!.isLoading.value
@@ -194,7 +197,7 @@ class MyTableTableView extends StatelessWidget {
               ...controller?.visibleHeaders.value
                       .map((header) => Column(children: [
                             TextView(
-                              display_message: "${header["name"]}",
+                              display_message: "${header["name"]}".tr,
                               data: header,
                             )
                           ])) ??
@@ -206,7 +209,8 @@ class MyTableTableView extends StatelessWidget {
                         ...controller?.visibleHeaders.value
                                 .map((header) => Column(children: [
                                       TextView(
-                                        display_message: "@${header["field"]}#",
+                                        display_message:
+                                            "@${header["field"]}#".tr,
                                         data: element,
                                       )
                                     ])) ??
@@ -290,12 +294,13 @@ class MyTableListView extends StatelessWidget {
                                 )
                               : null,
                       title: TextView(
-                        display_message: options?.title ?? "Title (No set)",
+                        display_message:
+                            (options?.title ?? "Title (No set)").tr,
                         data: item,
                       ),
                       subtitle: TextView(
                         display_message:
-                            options?.subtitle ?? "Sub Title (No set)",
+                            (options?.subtitle ?? "Sub Title (No set)").tr,
                         data: item,
                       ),
                       trailing: getTrailing(context, controller, options, item),

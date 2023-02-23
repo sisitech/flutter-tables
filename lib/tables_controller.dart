@@ -157,7 +157,7 @@ class TableController extends GetxController {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextView(
-                  display_message: options?.title ?? "Title",
+                  display_message: (options?.title ?? "Title").tr,
                   data: item,
                   style: Get.theme.textTheme.headline5,
                   maxLines: 2,
@@ -180,7 +180,7 @@ class TableController extends GetxController {
           (message) => Padding(
             padding: const EdgeInsets.all(10),
             child: TextView(
-              display_message: message,
+              display_message: message.tr,
               data: item,
               maxLines: 30,
             ),
@@ -193,19 +193,19 @@ class TableController extends GetxController {
     deleteErrorMEssage.value = "";
 
     var res = await Get.defaultDialog(
-      title: "Delete ?",
+      title: "Delete ?".tr,
       content: Obx(() {
         return Column(
           children: [
             TextView(
-              display_message: deleteMessageTemplate,
+              display_message: deleteMessageTemplate.tr,
               data: item,
             ),
             if (deleteErrorMEssage.value != "")
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                  "${deleteErrorMEssage.value}",
+                  "${deleteErrorMEssage.value}".tr,
                   style: TextStyle(color: Get.theme.errorColor),
                 ),
               ),
@@ -222,7 +222,7 @@ class TableController extends GetxController {
                     Get.back();
                   },
             child: Text(
-              "Cancel",
+              "Cancel".tr,
               style: isDeleting.value
                   ? null
                   : TextStyle(color: Get.theme.errorColor),
@@ -269,7 +269,7 @@ class TableController extends GetxController {
                     isDeleting.value = false;
                   },
             child: Text(
-              isDeleting.value ? "Deleting..." : "Delete",
+              (isDeleting.value ? "Deleting..." : "Delete").tr,
             ),
           );
         }),
