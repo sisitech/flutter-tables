@@ -211,6 +211,7 @@ class MyHomePage extends StatelessWidget {
                       MyTable(
                         type: MyTableType.list,
                         pageSize: 20,
+                        noDataWidget: Text("NNNNooooo"),
                         // args: {"shop": 111},
 
                         // onSelect: (ListViewOptions options,
@@ -219,6 +220,13 @@ class MyHomePage extends StatelessWidget {
                         //       duration: Duration(seconds: 1),
                         //       arguments: {"item": item, "options": options});
                         // },
+                        // showCount: false,
+                        childBuilder: (cont) {
+                          var id = cont?.count.value;
+                          dprint(cont?.results);
+                          return Text("$id");
+                        },
+
                         options: ListViewOptions(
                             physics: const NeverScrollableScrollPhysics(),
                             title: "Customer 2 @name#",

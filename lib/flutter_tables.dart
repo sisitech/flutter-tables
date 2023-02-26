@@ -26,6 +26,8 @@ class MyTable extends StatelessWidget {
   late int page;
   late Function? onSelect;
 
+  late Widget Function(TableController? controller)? childBuilder;
+
   late Function(BuildContext context, dynamic item, ListViewOptions? options)?
       itemBuilder;
 
@@ -60,6 +62,7 @@ class MyTable extends StatelessWidget {
       this.instanceUrl,
       this.pageSize = 10,
       this.page = 1,
+      this.childBuilder,
       this.data,
       this.itemBuilder,
       required this.name,
@@ -131,23 +134,25 @@ class MyTable extends StatelessWidget {
                 ),
               ),
             ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: controller!.isLoading.value
-                ? CircularProgressIndicator()
-                : Column(
-                    children: [
-                      if (controller?.results.length == 0)
-                        noDataWidget ?? Text("No data"),
-                      MyTableViewSelector(
-                        controller: controller,
-                        itemBuilder: itemBuilder,
-                        type: type,
-                        options: options,
-                      ),
-                    ],
-                  ),
-          ),
+          if (childBuilder != null) childBuilder!(controller),
+          if (childBuilder == null)
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: controller!.isLoading.value
+                  ? CircularProgressIndicator()
+                  : Column(
+                      children: [
+                        if (controller?.results.length == 0)
+                          noDataWidget ?? Text("No data"),
+                        MyTableViewSelector(
+                          controller: controller,
+                          itemBuilder: itemBuilder,
+                          type: type,
+                          options: options,
+                        ),
+                      ],
+                    ),
+            ),
         ],
       );
     });
