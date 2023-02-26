@@ -97,7 +97,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: bf03bf48451118d0362e1073dd2e03a0fc804e76
+      resolved-ref: "082a80f2cca2fa6a1cce16dee7b0035d11254494"
       url: "git@github.com:sisitech/flutter-forms.git"
     source: git
     version: "0.0.2"
@@ -113,7 +113,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "553997d3daa878351885173ef565f968fc674e8f"
+      resolved-ref: "8e63924ae0c703bd3cbd7bb197fe09ba3a287feb"
       url: "git@github.com:sisitech/flutter_login.git"
     source: git
     version: "0.0.1"
@@ -134,7 +134,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "18945ac10f99ef6cafe783fe138f3d451e98637e"
+      resolved-ref: "075d15dbe12d5fb10a3e31d34618a659cf1f6494"
       url: "git@github.com:sisitech/flutter_utils.git"
     source: git
     version: "0.0.1"

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tables/flutter_tables.dart';
 import 'package:flutter_tables/tables_models.dart';
-import 'package:flutter_tables/text_view.dart';
 import 'package:flutter_utils/flutter_utils.dart';
+import 'package:flutter_utils/text_view/text_view.dart';
 import 'package:get/get.dart';
 
 Widget buildImages() => ListView.builder(

@@ -6,10 +6,9 @@ import 'package:flutter_form/models.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter_tables/flutter_tables.dart';
 import 'package:flutter_tables/tables_models.dart';
-
-import 'package:flutter_tables/text_view.dart';
 import 'package:flutter_utils/flutter_utils.dart';
 import 'package:flutter_utils/models.dart';
+import 'package:flutter_utils/text_view/text_view.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -106,7 +105,7 @@ class MyHomePage extends StatelessWidget {
                         enableDelete: true,
                         enableEdit: true,
                         showCount: false,
-                        // pageSize: 3,
+                        pageSize: 3,
                         deleteMessageTemplate: "Delete shop @name# ?",
                         type: MyTableType.list,
                         updateWidget: () => SingleSliverBarWidget(),
@@ -127,6 +126,7 @@ class MyHomePage extends StatelessWidget {
                           shrinkWrap: true,
                           // itemPadding: EdgeInsets.zero,
                           imageField: "image",
+
                           physics: NeverScrollableScrollPhysics(),
                           // separator: SizedBox(),
                           title: "Shop's name @name#",
@@ -210,7 +210,8 @@ class MyHomePage extends StatelessWidget {
                       ),
                       MyTable(
                         type: MyTableType.list,
-                        pageSize: 10,
+                        pageSize: 20,
+                        // args: {"shop": 111},
 
                         // onSelect: (ListViewOptions options,
                         //     Map<String, dynamic> item) {

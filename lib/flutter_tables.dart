@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form/utils.dart';
 import 'package:flutter_tables/tables_controller.dart';
 import 'package:flutter_tables/tables_models.dart';
-import 'package:flutter_tables/text_view.dart';
 import 'package:flutter_utils/flutter_utils.dart';
+import 'package:flutter_utils/text_view/text_view.dart';
 import 'package:get/get.dart';
 
 /// A Calculator.
@@ -25,6 +25,7 @@ class MyTable extends StatelessWidget {
   late bool enableView;
   late int page;
   late Function? onSelect;
+
   late Function(BuildContext context, dynamic item, ListViewOptions? options)?
       itemBuilder;
 
@@ -41,6 +42,8 @@ class MyTable extends StatelessWidget {
 
   late MyTableType type;
   Function? updateWidget;
+
+  late Widget? noDataWidget;
 
   Function? preUpdate;
   late List<Map<String, dynamic>>? data;
@@ -63,6 +66,7 @@ class MyTable extends StatelessWidget {
       this.options,
       this.preUpdate,
       this.headers,
+      this.noDataWidget,
       this.showCount = true,
       this.onControllerSetup,
       this.deleteMessageTemplate = "Delete id @id#",
@@ -131,11 +135,17 @@ class MyTable extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: controller!.isLoading.value
                 ? CircularProgressIndicator()
-                : MyTableViewSelector(
-                    controller: controller,
-                    itemBuilder: itemBuilder,
-                    type: type,
-                    options: options,
+                : Column(
+                    children: [
+                      if (controller?.results.length == 0)
+                        noDataWidget ?? Text("No data"),
+                      MyTableViewSelector(
+                        controller: controller,
+                        itemBuilder: itemBuilder,
+                        type: type,
+                        options: options,
+                      ),
+                    ],
                   ),
           ),
         ],
@@ -249,65 +259,70 @@ class MyTableListView extends StatelessWidget {
     );
     dprint("FOund the itemBuilder $itemBuilder");
     return Obx(
-      () => ListView.separated(
-        separatorBuilder: (context, index) {
-          if (options!.separator != null) {
-            return options?.separator ?? defaultSeparator;
-          }
-          return defaultSeparator;
-        },
-        shrinkWrap: options?.shrinkWrap ?? true,
-        physics: options?.physics,
-        itemCount: controller?.results.value.length ?? 0,
-        itemBuilder: (context, index) {
-          var item = controller?.results.value[index];
-          // dprint(options?.imageField);
-          // dprint(item[options?.imageField]);
-          return GestureDetector(
-            onTap: () {
-              // controller
-              if (controller!.onSelect != null) {
-                controller!.selectItem(item);
-              } else {
-                controller!.showBottomSheet(item);
+      () => Column(
+        children: [
+          ListView.separated(
+            separatorBuilder: (context, index) {
+              if (options!.separator != null) {
+                return options?.separator ?? defaultSeparator;
               }
+              return defaultSeparator;
             },
-            child: itemBuilder != null
-                ? itemBuilder!(context, item, options)
-                : Padding(
-                    padding: options!.itemPadding,
-                    child: ListTile(
-                      leading: item[options?.imageField] != null
-                          ? Container(
-                              width: 50,
-                              height: 50,
-                              child: Hero(
-                                tag: "image${item['id']}",
-                                child: Image(
-                                    image: NetworkImage(
-                                        item[options?.imageField])),
-                              ))
-                          : options?.imageField != null
+            shrinkWrap: options?.shrinkWrap ?? true,
+            physics: options?.physics,
+            itemCount: controller?.results.value.length ?? 0,
+            itemBuilder: (context, index) {
+              var item = controller?.results.value[index];
+              // dprint(options?.imageField);
+              // dprint(item[options?.imageField]);
+              return GestureDetector(
+                onTap: () {
+                  // controller
+                  if (controller!.onSelect != null) {
+                    controller!.selectItem(item);
+                  } else {
+                    controller!.showBottomSheet(item);
+                  }
+                },
+                child: itemBuilder != null
+                    ? itemBuilder!(context, item, options)
+                    : Padding(
+                        padding: options!.itemPadding,
+                        child: ListTile(
+                          leading: item[options?.imageField] != null
                               ? Container(
                                   width: 50,
                                   height: 50,
-                                )
-                              : null,
-                      title: TextView(
-                        display_message:
-                            (options?.title ?? "Title (No set)").tr,
-                        data: item,
+                                  child: Hero(
+                                    tag: "image${item['id']}",
+                                    child: Image(
+                                        image: NetworkImage(
+                                            item[options?.imageField])),
+                                  ))
+                              : options?.imageField != null
+                                  ? Container(
+                                      width: 50,
+                                      height: 50,
+                                    )
+                                  : null,
+                          title: TextView(
+                            display_message:
+                                (options?.title ?? "Title (No set)").tr,
+                            data: item,
+                          ),
+                          subtitle: TextView(
+                            display_message:
+                                (options?.subtitle ?? "Sub Title (No set)").tr,
+                            data: item,
+                          ),
+                          trailing:
+                              getTrailing(context, controller, options, item),
+                        ),
                       ),
-                      subtitle: TextView(
-                        display_message:
-                            (options?.subtitle ?? "Sub Title (No set)").tr,
-                        data: item,
-                      ),
-                      trailing: getTrailing(context, controller, options, item),
-                    ),
-                  ),
-          );
-        },
+              );
+            },
+          ),
+        ],
       ),
     );
   }

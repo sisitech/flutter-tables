@@ -3,8 +3,8 @@ import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_auth/auth_connect.dart';
 import 'package:flutter_form/utils.dart';
 import 'package:flutter_tables/tables_connect.dart';
-import 'package:flutter_tables/text_view.dart';
 import 'package:flutter_utils/flutter_utils.dart';
+import 'package:flutter_utils/text_view/text_view.dart';
 import 'package:get/get.dart';
 import 'package:flutter_form/utils.dart';
 import 'tables_models.dart';
@@ -35,6 +35,8 @@ class TableController extends GetxController {
   int page;
   late List<String>? headers;
   Map<String, dynamic> args;
+
+  var entireBody;
 
   var tableProv = Get.put<TableProvider>(TableProvider());
 
@@ -76,6 +78,7 @@ class TableController extends GetxController {
     super.onInit();
     // dprint("Table controller ");
     getData();
+    dprint("Page Size is $pageSize");
   }
 
   toTileCase(String s) {
@@ -298,6 +301,7 @@ class TableController extends GetxController {
         dprint(getQueryParams());
         dprint(listTypeUrl);
         var res = await tableProv.formGet(listTypeUrl, query: getQueryParams());
+        entireBody = res;
         isLoading.value = false;
         dprint(res.statusCode);
         // dprint(res.body);
