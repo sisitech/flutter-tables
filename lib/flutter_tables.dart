@@ -51,6 +51,7 @@ class MyTable extends StatelessWidget {
   late List<Map<String, dynamic>>? data;
 
   Function? onControllerSetup;
+  late Function(dynamic item)? onItemDelete;
 
   late Widget? bottomSheet;
 
@@ -63,6 +64,7 @@ class MyTable extends StatelessWidget {
       this.pageSize = 10,
       this.page = 1,
       this.childBuilder,
+      this.onItemDelete,
       this.data,
       this.itemBuilder,
       required this.name,
@@ -87,6 +89,7 @@ class MyTable extends StatelessWidget {
             listTypeUrl: listTypeUrl,
             instanceUrl: instanceUrl,
             page: page,
+            onItemDelete: onItemDelete,
             data: data,
             headers: headers,
             preUpdate: preUpdate,

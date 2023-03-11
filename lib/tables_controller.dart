@@ -28,6 +28,7 @@ class TableController extends GetxController {
   Function? updateWidget;
 
   late Function? onSelect;
+  late Function(dynamic item)? onItemDelete;
 
   late dynamic? selectedItem;
   String deleteMessageTemplate;
@@ -57,6 +58,7 @@ class TableController extends GetxController {
     this.enableEdit = false,
     this.transformRow,
     this.updateWidget,
+    this.onItemDelete,
     this.args = const {},
     this.selectedItem,
     this.preUpdate,
@@ -255,12 +257,23 @@ class TableController extends GetxController {
                         // dprint(
                         //     "Count After ${results.value.length} ${count.value}");
 
+                        // On deletion complete
+                        if (onItemDelete != null) {
+                          await onItemDelete!(item);
+                        }
+
                         Get.back(result: item);
+                      } else if (delRes.statusCode == 403 ||
+                          delRes.statusCode == 401 ||
+                          delRes.statusCode == 400) {
+                        if (delRes.body?.containsKey("detail")) {
+                          deleteErrorMEssage.value = delRes.body?['detail']?.tr;
+                        }
                       } else if (delRes.statusCode == 404) {
                         // dprint("not found");
-                        deleteErrorMEssage.value = "Item not found";
+                        deleteErrorMEssage.value = "Item not found".tr;
                       } else if (delRes.statusCode == 500) {
-                        deleteErrorMEssage.value = "Failed, Contact Admin.";
+                        deleteErrorMEssage.value = "Failed, Contact Admin".tr;
                       } else {
                         dprint(delRes.body);
                       }

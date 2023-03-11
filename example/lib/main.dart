@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:example/single.dart';
 import 'package:example/sliver_app_bar_single.dart';
 import 'package:flutter/material.dart';
@@ -211,22 +213,18 @@ class MyHomePage extends StatelessWidget {
                       MyTable(
                         type: MyTableType.list,
                         pageSize: 20,
-                        noDataWidget: Text("NNNNooooo"),
-                        // args: {"shop": 111},
-
-                        // onSelect: (ListViewOptions options,
-                        //     Map<String, dynamic> item) {
-                        //   Get.to(SingleSliverBarWidget(),
-                        //       duration: Duration(seconds: 1),
-                        //       arguments: {"item": item, "options": options});
-                        // },
-                        // showCount: false,
-                        childBuilder: (cont) {
-                          var id = cont?.count.value;
-                          dprint(cont?.results);
-                          return Text("$id");
+                        enableDelete: true,
+                        onItemDelete: (item) async {
+                          await Future.delayed(Duration(seconds: 5));
+                          dprint("DOne with cleanup");
                         },
 
+                        noDataWidget: Text("NNNNooooo"),
+                        // childBuilder: (cont) {
+                        //   var id = cont?.count.value;
+                        //   // dprint(cont?.results);
+                        //   return Text("$id");
+                        // },
                         options: ListViewOptions(
                             physics: const NeverScrollableScrollPhysics(),
                             title: "Customer 2 @name#",
@@ -235,7 +233,7 @@ class MyHomePage extends StatelessWidget {
                                 "\n@created#"
                                 "\nThemiadaidoa diajod aodnoad adnad nadioad aidoad aidoad adiaod adoadh this is the end of the line.",
                             trailing: ""),
-                        name: 'Sales',
+                        name: 'Sales1',
                         headers: [
                           'branch_name',
                           'name',
