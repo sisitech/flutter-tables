@@ -267,7 +267,8 @@ class TableController extends GetxController {
                           delRes.statusCode == 401 ||
                           delRes.statusCode == 400) {
                         if (delRes.body?.containsKey("detail")) {
-                          deleteErrorMEssage.value = delRes.body?['detail']?.tr;
+                          deleteErrorMEssage.value =
+                              "${delRes.body?['detail']}".tr;
                         }
                       } else if (delRes.statusCode == 404) {
                         // dprint("not found");
