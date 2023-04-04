@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/basic.dart';
-import 'package:flutter_auth/auth_connect.dart';
-import 'package:flutter_form/utils.dart';
 import 'package:flutter_tables/tables_connect.dart';
 import 'package:flutter_utils/flutter_utils.dart';
 import 'package:flutter_utils/text_view/text_view.dart';
+import 'package:flutter_utils/text_view/text_view_extensions.dart';
 import 'package:get/get.dart';
-import 'package:flutter_form/utils.dart';
 import 'tables_models.dart';
 
 const successStatusCodes = [200, 201, 204];
