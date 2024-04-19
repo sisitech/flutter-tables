@@ -146,8 +146,8 @@ class MyTable extends StatelessWidget {
                       padding: EdgeInsets.only(top: 8.0),
                       child: Center(
                           child: SizedBox(
-                        height: 50,
-                        width: 50,
+                        height: 20,
+                        width: 20,
                         child: CircularProgressIndicator(),
                       )),
                     )
