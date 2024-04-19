@@ -214,6 +214,7 @@ class MyHomePage extends StatelessWidget {
                         type: MyTableType.list,
                         pageSize: 20,
                         enableDelete: true,
+
                         onItemDelete: (item) async {
                           await Future.delayed(Duration(seconds: 5));
                           dprint("DOne with cleanup");
@@ -226,7 +227,8 @@ class MyHomePage extends StatelessWidget {
                         //   return Text("$id");
                         // },
                         options: ListViewOptions(
-                            physics: const NeverScrollableScrollPhysics(),
+                            // physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
                             title: "Customer 2 @name#",
                             subtitle: "Branch: @branch_name#"
                                 "\nKSH @total_price#"

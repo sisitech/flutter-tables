@@ -142,7 +142,7 @@ class MyTable extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(10),
               child: controller!.isLoading.value
-                  ? CircularProgressIndicator()
+                  ? const Center(child: CircularProgressIndicator())
                   : Column(
                       children: [
                         if (controller?.results.length == 0)
@@ -277,7 +277,8 @@ class MyTableListView extends StatelessWidget {
               return defaultSeparator;
             },
             shrinkWrap: options?.shrinkWrap ?? true,
-            physics: options?.physics,
+            // physics: options?.physics,
+            scrollDirection: options?.scrollDirection ?? Axis.vertical,
             itemCount: controller?.results.value.length ?? 0,
             itemBuilder: (context, index) {
               var item = controller?.results.value[index];

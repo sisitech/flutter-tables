@@ -21,6 +21,7 @@ class ListViewOptions extends MyTableOptions {
   late EdgeInsetsGeometry itemPadding;
   late Widget? separator;
   late Function? trailingWidgetBuilder;
+  late Axis scrollDirection;
 
   ListViewOptions(
       {this.imageField,
@@ -30,6 +31,7 @@ class ListViewOptions extends MyTableOptions {
       this.trailing,
       this.trailingWidgetBuilder,
       this.separator,
+      this.scrollDirection = Axis.vertical,
       this.itemPadding = const EdgeInsets.symmetric(vertical: 10),
       this.physics = const AlwaysScrollableScrollPhysics()});
 }
