@@ -214,7 +214,6 @@ class MyHomePage extends StatelessWidget {
                         type: MyTableType.list,
                         pageSize: 20,
                         enableDelete: true,
-
                         onItemDelete: (item) async {
                           await Future.delayed(Duration(seconds: 5));
                           dprint("DOne with cleanup");

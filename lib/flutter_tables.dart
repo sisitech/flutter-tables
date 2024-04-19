@@ -6,6 +6,7 @@ import 'package:flutter_tables/tables_controller.dart';
 import 'package:flutter_tables/tables_models.dart';
 import 'package:flutter_utils/flutter_utils.dart';
 import 'package:flutter_utils/text_view/text_view.dart';
+import 'package:flutter_utils/text_view/text_view_extensions.dart';
 import 'package:get/get.dart';
 
 /// A Calculator.
@@ -250,6 +251,32 @@ class MyTableTableView extends StatelessWidget {
   }
 }
 
+class CardList extends StatelessWidget {
+  final TableController? controller;
+  final ListViewOptions? options;
+
+  final Function(BuildContext context, dynamic item, ListViewOptions? options)?
+      itemBuilder;
+
+  const CardList(
+      {super.key, this.itemBuilder, required this.controller, this.options});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+          child: Text(index.toString()),
+        );
+      },
+      shrinkWrap: options?.shrinkWrap ?? true,
+      // physics: options?.physics,
+      scrollDirection: options?.scrollDirection ?? Axis.vertical,
+      itemCount: controller?.results.value.length ?? 0,
+    );
+  }
+}
+
 class MyTableListView extends StatelessWidget {
   TableController? controller;
   late Function(BuildContext context, dynamic item, ListViewOptions? options)?
@@ -277,66 +304,92 @@ class MyTableListView extends StatelessWidget {
     return Obx(
       () => Column(
         children: [
-          ListView.separated(
-            separatorBuilder: (context, index) {
-              if (options!.separator != null) {
-                return options?.separator ?? defaultSeparator;
-              }
-              return defaultSeparator;
-            },
-            shrinkWrap: options?.shrinkWrap ?? true,
-            // physics: options?.physics,
-            scrollDirection: options?.scrollDirection ?? Axis.vertical,
-            itemCount: controller?.results.value.length ?? 0,
-            itemBuilder: (context, index) {
-              var item = controller?.results.value[index];
-              // dprint(options?.imageField);
-              // dprint(item[options?.imageField]);
-              return GestureDetector(
-                onTap: () {
-                  // controller
-                  if (controller!.onSelect != null) {
-                    controller!.selectItem(item);
+          if (options?.scrollDirection == Axis.horizontal)
+            Container(
+              constraints: BoxConstraints(
+                  maxHeight:
+                      options?.horizontalScrollHeight ?? Get.height * 0.17),
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  var item = controller?.results.value[index];
+                  if (itemBuilder != null) {
+                    return itemBuilder!(context, item, options);
                   }
+                  return Center(
+                    child: Card(
+                      child: Text((options?.title ?? "").interpolate(item) ??
+                          index.toString()),
+                    ),
+                  );
                 },
-                child: itemBuilder != null
-                    ? itemBuilder!(context, item, options)
-                    : Padding(
-                        padding: options!.itemPadding,
-                        child: ListTile(
-                          leading: item[options?.imageField] != null
-                              ? Container(
-                                  width: 50,
-                                  height: 50,
-                                  child: Hero(
-                                    tag: "image${item['id']}",
-                                    child: Image(
-                                        image: NetworkImage(
-                                            item[options?.imageField])),
-                                  ))
-                              : options?.imageField != null
-                                  ? Container(
-                                      width: 50,
-                                      height: 50,
-                                    )
-                                  : null,
-                          title: TextView(
-                            display_message:
-                                (options?.title ?? "Title (No set)").tr,
-                            data: item,
+                // shrinkWrap: options?.shrinkWrap ?? true,
+                // physics: options?.physics,
+                scrollDirection: options?.scrollDirection ?? Axis.vertical,
+                itemCount: controller?.results.value.length ?? 0,
+              ),
+            ),
+          if (options?.scrollDirection == Axis.vertical)
+            ListView.separated(
+              separatorBuilder: (context, index) {
+                if (options!.separator != null) {
+                  return options?.separator ?? defaultSeparator;
+                }
+                return defaultSeparator;
+              },
+              shrinkWrap: options?.shrinkWrap ?? true,
+              // physics: options?.physics,
+              scrollDirection: options?.scrollDirection ?? Axis.vertical,
+              itemCount: controller?.results.value.length ?? 0,
+              itemBuilder: (context, index) {
+                var item = controller?.results.value[index];
+                // dprint(options?.imageField);
+                // dprint(item[options?.imageField]);
+                return GestureDetector(
+                  onTap: () {
+                    // controller
+                    if (controller!.onSelect != null) {
+                      controller!.selectItem(item);
+                    }
+                  },
+                  child: itemBuilder != null
+                      ? itemBuilder!(context, item, options)
+                      : Padding(
+                          padding: options!.itemPadding,
+                          child: ListTile(
+                            leading: item[options?.imageField] != null
+                                ? Container(
+                                    width: 50,
+                                    height: 50,
+                                    child: Hero(
+                                      tag: "image${item['id']}",
+                                      child: Image(
+                                          image: NetworkImage(
+                                              item[options?.imageField])),
+                                    ))
+                                : options?.imageField != null
+                                    ? Container(
+                                        width: 50,
+                                        height: 50,
+                                      )
+                                    : null,
+                            title: TextView(
+                              display_message:
+                                  (options?.title ?? "Title (No set)").tr,
+                              data: item,
+                            ),
+                            subtitle: TextView(
+                              display_message:
+                                  (options?.subtitle ?? "Sub Title (No set)")
+                                      .tr,
+                              data: item,
+                            ),
+                            trailing:
+                                getTrailing(context, controller, options, item),
                           ),
-                          subtitle: TextView(
-                            display_message:
-                                (options?.subtitle ?? "Sub Title (No set)").tr,
-                            data: item,
-                          ),
-                          trailing:
-                              getTrailing(context, controller, options, item),
                         ),
-                      ),
-              );
-            },
-          ),
+                );
+              },
+            ),
         ],
       ),
     );

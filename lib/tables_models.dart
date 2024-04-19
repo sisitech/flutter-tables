@@ -1,6 +1,7 @@
 library flutter_tables;
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 enum MyTableType { card, table, list }
 
@@ -22,6 +23,7 @@ class ListViewOptions extends MyTableOptions {
   late Widget? separator;
   late Function? trailingWidgetBuilder;
   late Axis scrollDirection;
+  late double? horizontalScrollHeight;
 
   ListViewOptions(
       {this.imageField,
@@ -32,6 +34,7 @@ class ListViewOptions extends MyTableOptions {
       this.trailingWidgetBuilder,
       this.separator,
       this.scrollDirection = Axis.vertical,
+      this.horizontalScrollHeight,
       this.itemPadding = const EdgeInsets.symmetric(vertical: 10),
       this.physics = const AlwaysScrollableScrollPhysics()});
 }
