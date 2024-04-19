@@ -142,7 +142,15 @@ class MyTable extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(10),
               child: controller!.isLoading.value
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Center(
+                          child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: CircularProgressIndicator(),
+                      )),
+                    )
                   : Column(
                       children: [
                         if (controller?.results.length == 0)
