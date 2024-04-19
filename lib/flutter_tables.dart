@@ -288,8 +288,6 @@ class MyTableListView extends StatelessWidget {
                   // controller
                   if (controller!.onSelect != null) {
                     controller!.selectItem(item);
-                  } else {
-                    controller!.showBottomSheet(item);
                   }
                 },
                 child: itemBuilder != null
