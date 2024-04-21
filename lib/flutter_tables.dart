@@ -5,6 +5,7 @@ import 'package:flutter_form/utils.dart';
 import 'package:flutter_tables/tables_controller.dart';
 import 'package:flutter_tables/tables_models.dart';
 import 'package:flutter_utils/flutter_utils.dart';
+import 'package:flutter_utils/internalization/extensions.dart';
 import 'package:flutter_utils/text_view/text_view.dart';
 import 'package:flutter_utils/text_view/text_view_extensions.dart';
 import 'package:get/get.dart';
@@ -155,7 +156,12 @@ class MyTable extends StatelessWidget {
                   : Column(
                       children: [
                         if (controller?.results.length == 0)
-                          noDataWidget ?? Text("No data"),
+                          GestureDetector(
+                            child: noDataWidget ?? Text("No data".ctr),
+                            onDoubleTap: () {
+                              controller?.getData();
+                            },
+                          ),
                         MyTableViewSelector(
                           controller: controller,
                           itemBuilder: itemBuilder,
