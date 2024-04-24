@@ -142,7 +142,7 @@ class MyTable extends StatelessWidget {
           if (childBuilder != null) childBuilder!(controller),
           if (childBuilder == null)
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: controller!.isLoading.value
                   ? const Padding(
                       padding: EdgeInsets.only(top: 8.0),
