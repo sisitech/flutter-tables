@@ -33,7 +33,7 @@ dependency_overrides:
   flutter_utils:
     git:
       url: git@github.com:sisitech/flutter_utils.git
-      ref: fc602a9
+      ref: b3bf4ec
 
 dev_dependencies:
   flutter_test:

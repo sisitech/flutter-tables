@@ -3,7 +3,7 @@ library flutter_tables;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-enum MyTableType { card, table, list }
+enum MyTableType { card, table, list, sliver }
 
 class MyTableModel {}
 
