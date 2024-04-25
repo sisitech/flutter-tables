@@ -30,27 +30,29 @@ class SliverListView extends StatelessWidget {
 
     return Obx(
       () {
-        if (controller?.isLoading.value ?? false) {
-          return const SliverFillRemaining(
-            child: SizedBox(
-              height: 50,
-              width: 50,
-              child: Center(child: CircularProgressIndicator()),
-            ),
-          );
-        }
-        if (controller?.results.isEmpty ?? true) {
-          return SliverFillRemaining(
-            child: SizedBox(
-              height: 50,
-              width: 50,
-              child: Center(child: noDataWidget ?? Text("No data".ctr)),
-            ),
-          );
-        }
-        controller?.results.value = [];
         return SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
+            if (controller?.isLoading.value ?? false) {
+              return const SizedBox(
+                height: 50,
+                width: 50,
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+            if (controller?.results.isEmpty ?? true) {
+              return SizedBox(
+                height: 50,
+                width: 50,
+                child: Center(child: noDataWidget ?? Text("No data".ctr)),
+              );
+            }
+            if (controller?.results.isEmpty ?? true) {
+              return null;
+            }
+            // Ensure it doesn't go past lengt+1
+            if (controller?.results.length == index) {
+              return null;
+            }
             var item = controller?.results.value[index];
             if (itemBuilder != null) {
               return itemBuilder!(context, item, options);
@@ -81,7 +83,7 @@ class SliverListView extends StatelessWidget {
               ),
               // trailing: getTrailing(context, controller, options, item),
             );
-          }, childCount: controller?.results.value.length),
+          }, childCount: (controller?.results.value.length ?? 0) + 1),
         );
       },
     );
