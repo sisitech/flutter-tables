@@ -35,7 +35,7 @@ class SliverListView extends StatelessWidget {
             child: SizedBox(
               height: 50,
               width: 50,
-              child: CircularProgressIndicator(),
+              child: Center(child: CircularProgressIndicator()),
             ),
           );
         }
@@ -44,11 +44,11 @@ class SliverListView extends StatelessWidget {
             child: SizedBox(
               height: 50,
               width: 50,
-              child: noDataWidget ?? Text("No data".ctr),
+              child: Center(child: noDataWidget ?? Text("No data".ctr)),
             ),
           );
         }
-
+        controller?.results.value = [];
         return SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             var item = controller?.results.value[index];

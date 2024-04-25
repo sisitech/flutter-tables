@@ -46,8 +46,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.deepPurple,
           brightness: Brightness.dark),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: MainSliverApp(),
+      // home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MainSliverApp(),
     );
   }
 }
