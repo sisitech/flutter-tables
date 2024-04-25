@@ -29,6 +29,9 @@ class SliverListView extends StatelessWidget {
       () => SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
           var item = controller?.results.value[index];
+          if (itemBuilder != null) {
+            return itemBuilder!(context, item, options);
+          }
           return ListTile(
             leading: item[options?.imageField] != null
                 ? Container(
