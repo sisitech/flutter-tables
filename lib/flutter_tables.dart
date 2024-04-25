@@ -120,6 +120,7 @@ class MyTable extends StatelessWidget {
     if (type == MyTableType.sliver) {
       return SliverListView(
         controller: controller,
+        itemBuilder: itemBuilder,
         options: options != null ? options as ListViewOptions : null,
       );
     }
