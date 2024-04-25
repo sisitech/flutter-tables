@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'internalization/translate.dart';
+import 'sliver_main.dart';
 
 void main() async {
   Get.put<APIConfig>(APIConfig(
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.deepPurple,
           brightness: Brightness.dark),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: const MyWidget(),
+      // home: MainSliverApp(),
     );
   }
 }
@@ -213,7 +214,7 @@ class MyHomePage extends StatelessWidget {
                     //   listTypeUrl: 'api/v1/shops',
                     // ),
                     MyTable(
-                      type: MyTableType.sliver,
+                      type: MyTableType.list,
                       pageSize: 20,
                       enableDelete: true,
                       onItemDelete: (item) async {
