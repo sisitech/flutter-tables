@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_utils/flutter_utils.dart';
+import 'package:flutter_utils/internalization/extensions.dart';
 import 'package:flutter_utils/text_view/text_view.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,7 @@ import 'tables_models.dart';
 class SliverListView extends StatelessWidget {
   final TableController? controller;
   final ListViewOptions? options;
+  final Widget? noDataWidget;
   final Function(BuildContext context, dynamic item, ListViewOptions? options)?
       itemBuilder;
 
@@ -17,6 +19,7 @@ class SliverListView extends StatelessWidget {
     this.controller,
     this.options,
     this.itemBuilder,
+    this.noDataWidget,
   });
   @override
   Widget build(BuildContext context) {
@@ -26,40 +29,61 @@ class SliverListView extends StatelessWidget {
     );
 
     return Obx(
-      () => SliverList(
-        delegate: SliverChildBuilderDelegate((context, index) {
-          var item = controller?.results.value[index];
-          if (itemBuilder != null) {
-            return itemBuilder!(context, item, options);
-          }
-          return ListTile(
-            leading: item[options?.imageField] != null
-                ? Container(
-                    width: 50,
-                    height: 50,
-                    child: Hero(
-                      tag: "image${item['id']}",
-                      child:
-                          Image(image: NetworkImage(item[options?.imageField])),
-                    ))
-                : options?.imageField != null
-                    ? Container(
-                        width: 50,
-                        height: 50,
-                      )
-                    : null,
-            title: TextView(
-              display_message: (options?.title ?? "Title (No set)").tr,
-              data: item,
+      () {
+        if (controller?.isLoading.value ?? false) {
+          return const SliverFillRemaining(
+            child: SizedBox(
+              height: 50,
+              width: 50,
+              child: CircularProgressIndicator(),
             ),
-            subtitle: TextView(
-              display_message: (options?.subtitle ?? "Sub Title (No set)").tr,
-              data: item,
-            ),
-            // trailing: getTrailing(context, controller, options, item),
           );
-        }, childCount: controller?.results.value.length),
-      ),
+        }
+        if (controller?.results.isEmpty ?? true) {
+          return SliverFillRemaining(
+            child: SizedBox(
+              height: 50,
+              width: 50,
+              child: noDataWidget ?? Text("No data".ctr),
+            ),
+          );
+        }
+
+        return SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            var item = controller?.results.value[index];
+            if (itemBuilder != null) {
+              return itemBuilder!(context, item, options);
+            }
+            return ListTile(
+              leading: item[options?.imageField] != null
+                  ? Container(
+                      width: 50,
+                      height: 50,
+                      child: Hero(
+                        tag: "image${item['id']}",
+                        child: Image(
+                            image: NetworkImage(item[options?.imageField])),
+                      ))
+                  : options?.imageField != null
+                      ? Container(
+                          width: 50,
+                          height: 50,
+                        )
+                      : null,
+              title: TextView(
+                display_message: (options?.title ?? "Title (No set)").tr,
+                data: item,
+              ),
+              subtitle: TextView(
+                display_message: (options?.subtitle ?? "Sub Title (No set)").tr,
+                data: item,
+              ),
+              // trailing: getTrailing(context, controller, options, item),
+            );
+          }, childCount: controller?.results.value.length),
+        );
+      },
     );
   }
 }
