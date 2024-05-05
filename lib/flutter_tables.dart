@@ -172,12 +172,13 @@ class MyTable extends StatelessWidget {
                               controller?.getData();
                             },
                           ),
-                        MyTableViewSelector(
-                          controller: controller,
-                          itemBuilder: itemBuilder,
-                          type: type,
-                          options: options,
-                        ),
+                        if (controller?.results.length != 0)
+                          MyTableViewSelector(
+                            controller: controller,
+                            itemBuilder: itemBuilder,
+                            type: type,
+                            options: options,
+                          ),
                       ],
                     ),
             ),
