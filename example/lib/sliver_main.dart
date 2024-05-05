@@ -41,14 +41,14 @@ class MainSliverApp extends StatelessWidget {
                   "\nThemiadaidoa diajod aodnoad adnad nadioad aidoad aidoad adiaod adoadh this is the end of the line.",
               trailing: "",
             ),
-            name: 'Sales1',
+            name: 'sliverslaes',
             headers: [
               'branch_name',
               'name',
               "transaction_type_display",
               "total_price"
             ],
-            listTypeUrl: 'api/v1/sales',
+            listTypeUrl: 'api/v1/shops',
           ),
 
           // SliverList.builder(

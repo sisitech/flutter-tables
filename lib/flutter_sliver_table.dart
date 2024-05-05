@@ -10,14 +10,15 @@ import 'tables_models.dart';
 class NoDataWidget extends StatelessWidget {
   final Widget? noDataWidget;
   final bool isLoading;
+  final int count;
 
-  const NoDataWidget({super.key, this.noDataWidget, this.isLoading = false});
+  const NoDataWidget(
+      {super.key, this.noDataWidget, this.isLoading = false, this.count = 0});
   @override
   Widget build(BuildContext context) {
-    if (this.isLoading) {
+    if (isLoading || count > 0) {
       return const SizedBox();
     }
-
     return SizedBox(
       height: 50,
       width: 50,
@@ -53,6 +54,7 @@ class SliverListView extends StatelessWidget {
           slivers: [
             SliverToBoxAdapter(
               child: NoDataWidget(
+                count: controller?.results.length ?? 0,
                 isLoading: controller?.isLoading.value ?? false,
               ),
             ),
