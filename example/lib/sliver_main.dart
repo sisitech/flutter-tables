@@ -23,7 +23,6 @@ class MainSliverApp extends StatelessWidget {
             ),
             // flexibleSpace: ,
           ),
-
           MyTable(
             type: MyTableType.sliver,
             pageSize: 20,
