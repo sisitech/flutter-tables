@@ -54,6 +54,7 @@ class SliverListView extends StatelessWidget {
           slivers: [
             SliverToBoxAdapter(
               child: NoDataWidget(
+                noDataWidget: noDataWidget,
                 count: controller?.results.length ?? 0,
                 isLoading: controller?.isLoading.value ?? false,
               ),
