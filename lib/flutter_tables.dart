@@ -340,6 +340,7 @@ class MyTableListView extends StatelessWidget {
     dprint("FOund the itemBuilder $itemBuilder");
     return Obx(
       () => Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           if (options?.scrollDirection == Axis.horizontal)
             Container(
@@ -374,7 +375,7 @@ class MyTableListView extends StatelessWidget {
                 return defaultSeparator;
               },
               shrinkWrap: options?.shrinkWrap ?? true,
-              // physics: options?.physics,
+              physics: options?.physics,
               scrollDirection: options?.scrollDirection ?? Axis.vertical,
               itemCount: controller?.results.value.length ?? 0,
               itemBuilder: (context, index) {

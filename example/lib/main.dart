@@ -224,7 +224,7 @@ class MyHomePage extends StatelessWidget {
                         dprint("DOne with cleanup");
                       },
                       options: ListViewOptions(
-                        // physics: const NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         // scrollDirection: Axis.horizontal,
                         title: "Customer 2 @name#",
                         subtitle: "Branch: @branch_name#"
