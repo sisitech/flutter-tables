@@ -128,7 +128,6 @@ class MyTable extends StatelessWidget {
     return Obx(() {
       // dprint("Revuilding with acunt");
       // dprint(controller?.count);
-
       return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +152,8 @@ class MyTable extends StatelessWidget {
           if (childBuilder == null)
             Padding(
               padding: const EdgeInsets.all(10),
-              child: controller!.isLoading.value
+              child: controller!.isLoading.value &&
+                      controller!.results.value.isEmpty
                   ? const Padding(
                       padding: EdgeInsets.only(top: 8.0),
                       child: Center(
@@ -181,6 +181,18 @@ class MyTable extends StatelessWidget {
                           ),
                       ],
                     ),
+            ),
+          if (controller?.hasNext.value ?? false)
+            ElevatedButton.icon(
+              onPressed: controller?.isLoading.value ?? false
+                  ? null
+                  : () {
+                      controller?.loadNext();
+                    },
+              icon: const Icon(Icons.next_plan),
+              label: Text(controller?.isLoading.value ?? false
+                  ? "Loading..."
+                  : "Load More"),
             ),
         ],
       );

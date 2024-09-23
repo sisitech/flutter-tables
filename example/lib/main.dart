@@ -19,13 +19,15 @@ import 'internalization/translate.dart';
 import 'sliver_main.dart';
 
 void main() async {
-  Get.put<APIConfig>(APIConfig(
-      apiEndpoint: "https://dukapi.roometo.com",
-      version: "api/v1",
-      clientId: "NUiCuG59zwZJR14tIdWD7iQ5ILFnpxbdrO2epHIG",
-      tokenUrl: 'o/token/',
-      grantType: "password",
-      revokeTokenUrl: 'o/revoke_token/'));
+  Get.put<APIConfig>(
+    APIConfig(
+        apiEndpoint: "https://dukapi.roometo.com",
+        version: "api/v1",
+        clientId: "NUiCuG59zwZJR14tIdWD7iQ5ILFnpxbdrO2epHIG",
+        tokenUrl: 'o/token/',
+        grantType: "password",
+        revokeTokenUrl: 'o/revoke_token/'),
+  );
   await GetStorage.init();
   Get.lazyPut(() => AuthController());
   Get.put(NetworkStatusController());
@@ -46,8 +48,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.deepPurple,
           brightness: Brightness.dark),
-      // home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: MainSliverApp(),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: MainSliverApp(),
     );
   }
 }
@@ -215,7 +217,7 @@ class MyHomePage extends StatelessWidget {
                     // ),
                     MyTable(
                       type: MyTableType.list,
-                      pageSize: 20,
+                      pageSize: 2,
                       enableDelete: true,
                       onItemDelete: (item) async {
                         await Future.delayed(Duration(seconds: 5));

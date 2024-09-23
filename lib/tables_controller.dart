@@ -66,6 +66,9 @@ class TableController extends GetxController {
     this.enableView = false,
   });
 
+  var hasNext = false.obs;
+  var hasPrevious = false.obs;
+
   var results = [].obs;
   var isLoading = false.obs;
   var count = 0.obs;
@@ -295,22 +298,33 @@ class TableController extends GetxController {
   }
 
   resetFetchOpttions() {
-    isLoading.value = true;
+    // isLoading.value = true;
     results.value = [];
     visibleHeaders.value = [];
     count.value = 0;
   }
 
-  getData() async {
+  loadNext() {
+    page += 1;
+    dprint("Trying to get $page");
+    getData(isLoadMore: true);
+  }
+
+  getData({
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      resetFetchOpttions();
+    }
     try {
       if (data != null) {
         results.value = data!;
         count.value = data!.length;
       } else {
-        resetFetchOpttions();
         dprint("Getting. dara");
         dprint(getQueryParams());
         dprint(listTypeUrl);
+        isLoading.value = true;
         var res = await tableProv.formGet(listTypeUrl, query: getQueryParams());
         entireBody = res;
         isLoading.value = false;
@@ -322,20 +336,29 @@ class TableController extends GetxController {
           if (res.body.containsKey("results")) {
             all = res.body["results"] ?? [];
             count.value = res.body["count"];
+            hasNext.value = res.body["next"] != null;
+            hasPrevious.value = res.body["previous"] != null;
           } else {
             all = res.body ?? [];
             count.value = all.length;
+            hasNext.value = false;
+            hasPrevious.value = false;
           }
 
           if (all.length > 0) {
             visibleHeaders.value = getHeaders(all[0]);
             // dprint(visibleHeaders);
-            results.value = all.map((e) {
+            var passedResults = all.map((e) {
               if (transformRow != null) {
                 return transformRow!(e);
               }
               return e;
             }).toList();
+            if (isLoadMore) {
+              results.value.addAll(passedResults);
+            } else {
+              results.value.assignAll(passedResults);
+            }
           }
         } else {}
       }
