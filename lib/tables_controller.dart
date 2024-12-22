@@ -164,7 +164,7 @@ class TableController extends GetxController {
                 child: TextView(
                   display_message: (options?.title ?? "Title").tr,
                   data: item,
-                  style: Get.theme.textTheme.headline5,
+                  style: Get.theme.textTheme.headlineMedium,
                   maxLines: 2,
                 ),
               ),
@@ -211,7 +211,7 @@ class TableController extends GetxController {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
                   "${deleteErrorMEssage.value}".tr,
-                  style: TextStyle(color: Get.theme.errorColor),
+                  style: TextStyle(color: Get.theme.colorScheme.error),
                 ),
               ),
           ],
@@ -230,7 +230,7 @@ class TableController extends GetxController {
               "Cancel".tr,
               style: isDeleting.value
                   ? null
-                  : TextStyle(color: Get.theme.errorColor),
+                  : TextStyle(color: Get.theme.colorScheme.error),
             ),
           );
         }),

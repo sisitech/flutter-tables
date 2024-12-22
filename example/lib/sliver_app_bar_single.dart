@@ -145,7 +145,7 @@ Widget buildImages({int count = 50}) => ListView.builder(
       return Center(
         child: Text(
           "${index}",
-          style: Get.theme.textTheme.headline4,
+          style: Get.theme.textTheme.headlineSmall,
         ),
       );
     });

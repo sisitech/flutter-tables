@@ -143,7 +143,7 @@ class MyTable extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   child: TextView(
                     display_message: "${controller?.count} ${name} ".tr,
-                    style: Get.theme.textTheme.headline6,
+                    style: Get.theme.textTheme.headlineLarge,
                   ),
                 ),
               ),
@@ -457,7 +457,7 @@ class MyTableListView extends StatelessWidget {
             },
             child: Icon(
               Icons.delete,
-              color: Get.theme.errorColor,
+              color: Get.theme.colorScheme.error,
             ),
           ),
         if (controller?.enableEdit ?? false)

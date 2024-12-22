@@ -30,12 +30,17 @@ dependency_overrides:
   flutter_form:
     git:
       url: git@github.com:sisitech/flutter-forms.git
-      ref: d11f5e1
-      
+      ref: "68aa594"
+
   flutter_utils:
     git:
       url: git@github.com:sisitech/flutter_utils.git
-      ref: b3bf4ec
+      ref: "b68a85f"
+
+  flutter_auth:
+    git:
+      url: git@github.com:sisitech/flutter_auth.git
+      ref: "67872f9"
 
 dev_dependencies:
   flutter_test:

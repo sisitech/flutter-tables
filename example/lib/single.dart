@@ -13,7 +13,7 @@ Widget buildImages() => ListView.builder(
         return Center(
           child: Text(
             "${index}",
-            style: Get.theme.textTheme.headline4,
+            style: Get.theme.textTheme.headlineSmall,
           ),
         );
       },
@@ -48,7 +48,7 @@ class SingleShopView extends StatelessWidget {
               child: TextView(
                 display_message: options.title ?? "",
                 data: item,
-                style: Get.theme.textTheme.headline4,
+                style: Get.theme.textTheme.headlineSmall,
               ),
             ),
             // TextView(
