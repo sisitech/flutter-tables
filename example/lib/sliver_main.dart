@@ -1,12 +1,16 @@
 import 'package:example/main.dart';
+import 'package:example/tag_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tables/flutter_tables.dart';
+import 'package:flutter_tables/tables_controller.dart';
 import 'package:flutter_tables/tables_models.dart';
 import 'package:flutter_utils/flutter_utils.dart';
 import 'package:flutter_utils/text_view/text_view_extensions.dart';
 
 class MainSliverApp extends StatelessWidget {
-  const MainSliverApp({super.key});
+  TableController? controller;
+
+  MainSliverApp({super.key, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +33,21 @@ class MainSliverApp extends StatelessWidget {
             type: MyTableType.sliver,
             pageSize: 20,
             enableDelete: true,
+            instanceUrl: "api/v1/tagging-rules",
+            deleteMessageTemplate:
+                "Delete @name# custom rule for @sub_category_name#",
             onItemDelete: (item) async {
-              await Future.delayed(Duration(seconds: 5));
+              await Future.delayed(Duration(seconds: 2));
               dprint("DOne with cleanup");
             },
+            onControllerSetup: (cont) {
+              controller = cont;
+            },
             itemBuilder: (context, item, options) {
+              return TagCard(
+                item: item,
+                tableController: controller,
+              );
               return Text("@name#".interpolate(item));
             },
             options: ListViewOptions(
