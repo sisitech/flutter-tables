@@ -1,7 +1,9 @@
+import 'package:example/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tables/flutter_tables.dart';
 import 'package:flutter_tables/tables_models.dart';
 import 'package:flutter_utils/flutter_utils.dart';
+import 'package:flutter_utils/text_view/text_view_extensions.dart';
 
 class MainSliverApp extends StatelessWidget {
   const MainSliverApp({super.key});
@@ -31,6 +33,9 @@ class MainSliverApp extends StatelessWidget {
               await Future.delayed(Duration(seconds: 5));
               dprint("DOne with cleanup");
             },
+            itemBuilder: (context, item, options) {
+              return Text("@name#".interpolate(item));
+            },
             options: ListViewOptions(
               // physics: const NeverScrollableScrollPhysics(),
               // scrollDirection: Axis.horizontal,
@@ -48,7 +53,7 @@ class MainSliverApp extends StatelessWidget {
               "transaction_type_display",
               "total_price"
             ],
-            listTypeUrl: 'api/v1/shops',
+            listTypeUrl: 'api/v1/tagging-rules/me',
           ),
 
           // SliverList.builder(

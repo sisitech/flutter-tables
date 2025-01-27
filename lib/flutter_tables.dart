@@ -236,12 +236,14 @@ class MyTableViewSelector extends StatelessWidget {
       case MyTableType.sliver:
         return SliverListView(
           controller: controller,
+          itemBuilder: itemBuilder,
           options: options != null ? options as ListViewOptions : null,
         );
         break;
 
       default:
         return MyTableListView(
+          itemBuilder: itemBuilder,
           controller: controller,
         );
     }

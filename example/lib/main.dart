@@ -12,6 +12,7 @@ import 'package:flutter_utils/flutter_utils.dart';
 import 'package:flutter_utils/models.dart';
 import 'package:flutter_utils/network_status/network_status_controller.dart';
 import 'package:flutter_utils/text_view/text_view.dart';
+import 'package:flutter_utils/text_view/text_view_extensions.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -21,9 +22,15 @@ import 'sliver_main.dart';
 void main() async {
   Get.put<APIConfig>(
     APIConfig(
-        apiEndpoint: "https://dukapi.roometo.com",
+        // apiEndpoint: "https://dukapi.roometo.com",
+        // version: "api/v1",
+        // clientId: "NUiCuG59zwZJR14tIdWD7iQ5ILFnpxbdrO2epHIG",
+        // tokenUrl: 'o/token/',
+        // grantType: "password",
+        // revokeTokenUrl: 'o/revoke_token/',
+        apiEndpoint: "https://api.expensetracker.wavvy.dev",
         version: "api/v1",
-        clientId: "NUiCuG59zwZJR14tIdWD7iQ5ILFnpxbdrO2epHIG",
+        clientId: "fbaPXGrD6wewVEqoOkJfvierIrYbnROPXMa8CDv5",
         tokenUrl: 'o/token/',
         grantType: "password",
         revokeTokenUrl: 'o/revoke_token/'),
@@ -48,8 +55,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.deepPurple,
           brightness: Brightness.dark),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: MainSliverApp(),
+      // home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MainSliverApp(),
     );
   }
 }
@@ -223,6 +230,9 @@ class MyHomePage extends StatelessWidget {
                         await Future.delayed(Duration(seconds: 5));
                         dprint("DOne with cleanup");
                       },
+                      itemBuilder: (context, item, options) {
+                        return Text("@name#".interpolate(item));
+                      },
                       options: ListViewOptions(
                         physics: const NeverScrollableScrollPhysics(),
                         // scrollDirection: Axis.horizontal,
@@ -240,7 +250,7 @@ class MyHomePage extends StatelessWidget {
                         "transaction_type_display",
                         "total_price"
                       ],
-                      listTypeUrl: 'api/v1/sales',
+                      listTypeUrl: 'api/v1/tagging-rules/me',
                     ),
                   ],
                 ),
