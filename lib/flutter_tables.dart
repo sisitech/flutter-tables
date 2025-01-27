@@ -127,16 +127,18 @@ class MyTable extends StatelessWidget {
             options: options != null ? options as ListViewOptions : null,
           ),
           if (controller?.hasNext.value ?? false)
-            ElevatedButton.icon(
-              onPressed: controller?.isLoading.value ?? false
-                  ? null
-                  : () {
-                      controller?.loadNext();
-                    },
-              icon: const Icon(Icons.next_plan),
-              label: Text(controller?.isLoading.value ?? false
-                  ? "Loading..."
-                  : "Load More"),
+            SliverToBoxAdapter(
+              child: ElevatedButton.icon(
+                onPressed: controller?.isLoading.value ?? false
+                    ? null
+                    : () {
+                        controller?.loadNext();
+                      },
+                icon: const Icon(Icons.next_plan),
+                label: Text(controller?.isLoading.value ?? false
+                    ? "Loading..."
+                    : "Load More"),
+              ),
             ),
         ],
       );
