@@ -107,7 +107,21 @@ class SliverListView extends StatelessWidget {
                   // trailing: getTrailing(context, controller, options, item),
                 );
               }, childCount: (controller?.results.value.length ?? 0) + 1),
-            )
+            ),
+            if (controller?.hasNext.value ?? false)
+              SliverToBoxAdapter(
+                child: ElevatedButton.icon(
+                  onPressed: controller?.isLoading.value ?? false
+                      ? null
+                      : () {
+                          controller?.loadNext();
+                        },
+                  icon: const Icon(Icons.next_plan),
+                  label: Text(controller?.isLoading.value ?? false
+                      ? "Loading..."
+                      : "Load More"),
+                ),
+              ),
           ],
         );
       },

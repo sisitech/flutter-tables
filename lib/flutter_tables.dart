@@ -118,29 +118,11 @@ class MyTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (type == MyTableType.sliver) {
-      return SliverList.list(
-        children: [
-          SliverListView(
-            controller: controller,
-            itemBuilder: itemBuilder,
-            noDataWidget: noDataWidget,
-            options: options != null ? options as ListViewOptions : null,
-          ),
-          if (controller?.hasNext.value ?? false)
-            SliverToBoxAdapter(
-              child: ElevatedButton.icon(
-                onPressed: controller?.isLoading.value ?? false
-                    ? null
-                    : () {
-                        controller?.loadNext();
-                      },
-                icon: const Icon(Icons.next_plan),
-                label: Text(controller?.isLoading.value ?? false
-                    ? "Loading..."
-                    : "Load More"),
-              ),
-            ),
-        ],
+      return SliverListView(
+        controller: controller,
+        itemBuilder: itemBuilder,
+        noDataWidget: noDataWidget,
+        options: options != null ? options as ListViewOptions : null,
       );
     }
     return Obx(() {
