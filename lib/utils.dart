@@ -9,19 +9,19 @@ updateFilterArgs(
   String? fieldName = options?.searchField;
   dprint("Value is $value");
   if (value.isEmpty) {
-    var noKeys = controller?.args?.keys.toList();
+    var noKeys = controller?.searchArgs?.keys.toList();
     if (noKeys?.contains(options?.searchField) ?? false) {
-      controller?.args.remove(options?.searchField);
+      controller?.searchArgs.remove(options?.searchField);
     }
   } else {
-    var noKeys = controller?.args?.keys;
+    var noKeys = controller?.searchArgs?.keys;
     if (noKeys?.length == 0) {
       Map<String, dynamic> searchArgs = {};
       searchArgs[options?.searchField ?? ""] = value;
       dprint(searchArgs);
-      controller?.args = searchArgs;
+      controller?.searchArgs = searchArgs;
     } else {
-      controller?.args[options?.searchField ?? ""] = value;
+      controller?.searchArgs[options?.searchField ?? ""] = value;
     }
   }
   await controller?.getData(isLoadMore: false);

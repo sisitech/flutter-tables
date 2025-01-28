@@ -33,6 +33,7 @@ class TableController extends GetxController {
   int page;
   late List<String>? headers;
   Map<String, dynamic> args;
+  Map<String, dynamic> searchArgs;
 
   var entireBody;
 
@@ -57,6 +58,7 @@ class TableController extends GetxController {
     this.updateWidget,
     this.onItemDelete,
     this.args = const {},
+    this.searchArgs = const {},
     this.selectedItem,
     this.preUpdate,
     this.bottomSheet,
@@ -90,7 +92,12 @@ class TableController extends GetxController {
 
   Map<String, dynamic> getQueryParams() {
     // dprint("Getting para,");
-    return {"page_size": "${pageSize}", "page": "${page}", ...args};
+    return {
+      "page_size": "${pageSize}",
+      "page": "${page}",
+      ...args,
+      ...searchArgs
+    };
   }
 
   selectItem(Map<String, dynamic> item) {
