@@ -55,8 +55,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.deepPurple,
           brightness: Brightness.light),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: MainSliverApp(),
+      // home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MainSliverApp(),
     );
   }
 }
@@ -106,6 +106,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController authController = Get.find<AuthController>();
+    var userArgs = {"user": authController.profile.value?["id"].toString()};
 
     return Obx(
       () => (authController.isAuthenticated$.value)
@@ -226,6 +227,7 @@ class MyHomePage extends StatelessWidget {
                       type: MyTableType.list,
                       pageSize: 2,
                       enableDelete: true,
+                      args: userArgs,
                       onItemDelete: (item) async {
                         await Future.delayed(Duration(seconds: 5));
                         dprint("DOne with cleanup");

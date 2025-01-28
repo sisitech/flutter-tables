@@ -65,6 +65,11 @@ class SliverListView extends StatelessWidget {
                   },
                 ),
               ),
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 12,
+              ),
+            ),
             SliverToBoxAdapter(
               child: NoDataWidget(
                 noDataWidget: noDataWidget,
