@@ -144,7 +144,7 @@ class MyTable extends StatelessWidget {
           if (options?.searchField != null ?? false)
             MyTableSearch(
               options: options,
-              onChanged: (value) {
+              onChanged: (value) async {
                 dprint("Value is $value");
                 if (value.isEmpty) {
                   var noKeys = controller?.args?.keys.toList();
@@ -155,14 +155,14 @@ class MyTable extends StatelessWidget {
                   var noKeys = controller?.args?.keys;
                   if (noKeys?.length == 0) {
                     Map<String, dynamic> searchArgs = {};
-
                     searchArgs[options?.searchField ?? ""] = value;
                     dprint(searchArgs);
                     controller?.args = searchArgs;
-                  } else {}
+                  } else {
+                    controller?.args[options?.searchField ?? ""] = value;
+                  }
                 }
-
-                controller?.getData();
+                await controller?.getData(isLoadMore: false);
               },
             ),
           if (showCount)
