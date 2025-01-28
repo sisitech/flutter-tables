@@ -31,7 +31,7 @@ class MainSliverApp extends StatelessWidget {
           ),
           MyTable(
             type: MyTableType.sliver,
-            pageSize: 20,
+            pageSize: 2,
             enableDelete: true,
             instanceUrl: "api/v1/tagging-rules",
             deleteMessageTemplate:

@@ -50,6 +50,7 @@ class SliverListView extends StatelessWidget {
 
     return Obx(
       () {
+        var hasItems = (controller?.results.length ?? 0) > 0;
         return SliverMainAxisGroup(
           slivers: [
             SliverToBoxAdapter(
@@ -59,55 +60,60 @@ class SliverListView extends StatelessWidget {
                 isLoading: controller?.isLoading.value ?? false,
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                if (controller?.isLoading.value ?? false) {
-                  return const SizedBox(
+            if ((controller?.isLoading.value ?? false) && !hasItems)
+              SliverFillRemaining(
+                child: Center(
+                  child: const SizedBox(
                     height: 50,
                     width: 50,
                     child: Center(child: CircularProgressIndicator()),
+                  ),
+                ),
+              ),
+            if (hasItems)
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  if (controller?.results.isEmpty ?? true) {
+                    return null;
+                  }
+                  // Ensure it doesn't go past lengt+1
+                  if (controller?.results.length == index) {
+                    return null;
+                  }
+                  var item = controller?.results.value[index];
+                  if (itemBuilder != null) {
+                    return itemBuilder!(context, item, options);
+                  }
+                  return ListTile(
+                    leading: item[options?.imageField] != null
+                        ? Container(
+                            width: 50,
+                            height: 50,
+                            child: Hero(
+                              tag: "image${item['id']}",
+                              child: Image(
+                                  image:
+                                      NetworkImage(item[options?.imageField])),
+                            ))
+                        : options?.imageField != null
+                            ? Container(
+                                width: 50,
+                                height: 50,
+                              )
+                            : null,
+                    title: TextView(
+                      display_message: (options?.title ?? "Title (No set)").tr,
+                      data: item,
+                    ),
+                    subtitle: TextView(
+                      display_message:
+                          (options?.subtitle ?? "Sub Title (No set)").tr,
+                      data: item,
+                    ),
+                    // trailing: getTrailing(context, controller, options, item),
                   );
-                }
-                if (controller?.results.isEmpty ?? true) {
-                  return null;
-                }
-                // Ensure it doesn't go past lengt+1
-                if (controller?.results.length == index) {
-                  return null;
-                }
-                var item = controller?.results.value[index];
-                if (itemBuilder != null) {
-                  return itemBuilder!(context, item, options);
-                }
-                return ListTile(
-                  leading: item[options?.imageField] != null
-                      ? Container(
-                          width: 50,
-                          height: 50,
-                          child: Hero(
-                            tag: "image${item['id']}",
-                            child: Image(
-                                image: NetworkImage(item[options?.imageField])),
-                          ))
-                      : options?.imageField != null
-                          ? Container(
-                              width: 50,
-                              height: 50,
-                            )
-                          : null,
-                  title: TextView(
-                    display_message: (options?.title ?? "Title (No set)").tr,
-                    data: item,
-                  ),
-                  subtitle: TextView(
-                    display_message:
-                        (options?.subtitle ?? "Sub Title (No set)").tr,
-                    data: item,
-                  ),
-                  // trailing: getTrailing(context, controller, options, item),
-                );
-              }, childCount: (controller?.results.value.length ?? 0) + 1),
-            ),
+                }, childCount: (controller?.results.value.length ?? 0) + 1),
+              ),
             if (controller?.hasNext.value ?? false)
               SliverToBoxAdapter(
                 child: ElevatedButton.icon(
