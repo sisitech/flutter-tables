@@ -23,6 +23,7 @@ class MainSliverApp extends StatelessWidget {
             expandedHeight: size.height * 0.2,
             floating: true,
             pinned: true,
+
             automaticallyImplyLeading: false,
             flexibleSpace: FlexibleSpaceBar(
               title: Text("Hello world"),
@@ -54,6 +55,7 @@ class MainSliverApp extends StatelessWidget {
               // physics: const NeverScrollableScrollPhysics(),
               // scrollDirection: Axis.horizontal,
               title: "Customer 2 @name#",
+              searchField: "name",
               subtitle: "Branch: @branch_name#"
                   "\nKSH @total_price#"
                   "\n@created#"

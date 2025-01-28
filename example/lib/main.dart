@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           useMaterial3: true,
           primarySwatch: Colors.deepPurple,
-          brightness: Brightness.dark),
+          brightness: Brightness.light),
       // home: MyHomePage(title: 'Flutter Demo Home Page'),
       home: MainSliverApp(),
     );

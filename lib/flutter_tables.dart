@@ -11,6 +11,7 @@ import 'package:flutter_utils/text_view/text_view_extensions.dart';
 import 'package:get/get.dart';
 
 import 'flutter_sliver_table.dart';
+import 'widgets/search.dart';
 
 /// A Calculator.
 class Calculator {
@@ -109,6 +110,13 @@ class MyTable extends StatelessWidget {
             transformRow: transformRow,
             args: args),
         tag: name);
+    if (options?.searchField != null) {
+      options?.name = name;
+      var searchCont = Get.put(
+          SearchBarController(
+              debounceSeconds: options?.searchDebounceSeconds ?? 0.4),
+          tag: name);
+    }
 
     if (onControllerSetup != null) {
       onControllerSetup!(controller);

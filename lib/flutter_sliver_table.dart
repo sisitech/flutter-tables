@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import 'tables_controller.dart';
 import 'tables_models.dart';
+import 'widgets/search.dart';
 
 class NoDataWidget extends StatelessWidget {
   final Widget? noDataWidget;
@@ -53,6 +54,32 @@ class SliverListView extends StatelessWidget {
         var hasItems = (controller?.results.length ?? 0) > 0;
         return SliverMainAxisGroup(
           slivers: [
+            if (options?.searchField != null ?? false)
+              SliverToBoxAdapter(
+                child: MyTableSearch(
+                  options: options,
+                  onChanged: (value) {
+                    dprint("Value is $value");
+                    if (value.isEmpty) {
+                      var noKeys = controller?.args?.keys.toList();
+                      if (noKeys?.contains(options?.searchField) ?? false) {
+                        controller?.args.remove(options?.searchField);
+                      }
+                    } else {
+                      var noKeys = controller?.args?.keys;
+                      if (noKeys?.length == 0) {
+                        Map<String, dynamic> searchArgs = {};
+
+                        searchArgs[options?.searchField ?? ""] = value;
+                        dprint(searchArgs);
+                        controller?.args = searchArgs;
+                      } else {}
+                    }
+
+                    controller?.getData();
+                  },
+                ),
+              ),
             SliverToBoxAdapter(
               child: NoDataWidget(
                 noDataWidget: noDataWidget,
