@@ -11,6 +11,7 @@ import 'package:flutter_utils/text_view/text_view_extensions.dart';
 import 'package:get/get.dart';
 
 import 'flutter_sliver_table.dart';
+import 'utils.dart';
 import 'widgets/search.dart';
 
 /// A Calculator.
@@ -145,24 +146,8 @@ class MyTable extends StatelessWidget {
             MyTableSearch(
               options: options,
               onChanged: (value) async {
-                dprint("Value is $value");
-                if (value.isEmpty) {
-                  var noKeys = controller?.args?.keys.toList();
-                  if (noKeys?.contains(options?.searchField) ?? false) {
-                    controller?.args.remove(options?.searchField);
-                  }
-                } else {
-                  var noKeys = controller?.args?.keys;
-                  if (noKeys?.length == 0) {
-                    Map<String, dynamic> searchArgs = {};
-                    searchArgs[options?.searchField ?? ""] = value;
-                    dprint(searchArgs);
-                    controller?.args = searchArgs;
-                  } else {
-                    controller?.args[options?.searchField ?? ""] = value;
-                  }
-                }
-                await controller?.getData(isLoadMore: false);
+                updateFilterArgs(
+                    value: value, options: options, controller: controller);
               },
             ),
           if (showCount)
