@@ -55,8 +55,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.deepPurple,
           brightness: Brightness.light),
-      // home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: MainSliverApp(),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: MainSliverApp(),
     );
   }
 }
@@ -237,6 +237,7 @@ class MyHomePage extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         // scrollDirection: Axis.horizontal,
                         title: "Customer 2 @name#",
+                        searchField: "name",
                         subtitle: "Branch: @branch_name#"
                             "\nKSH @total_price#"
                             "\n@created#"

@@ -64,7 +64,7 @@ class MyTableSearch extends StatelessWidget {
 
   final void Function()? onTap;
   final void Function(String)? onSubmitted;
-  final ListViewOptions? options;
+  final MyTableOptions? options;
 
   MyTableSearch({
     super.key,
