@@ -52,16 +52,35 @@ class MainSliverApp extends StatelessWidget {
               return Text("@name#".interpolate(item));
             },
             options: ListViewOptions(
-              // physics: const NeverScrollableScrollPhysics(),
-              // scrollDirection: Axis.horizontal,
-              title: "Customer 2 @name#",
-              searchField: "name",
-              subtitle: "Branch: @branch_name#"
-                  "\nKSH @total_price#"
-                  "\n@created#"
-                  "\nThemiadaidoa diajod aodnoad adnad nadioad aidoad aidoad adiaod adoadh this is the end of the line.",
-              trailing: "",
-            ),
+                // physics: const NeverScrollableScrollPhysics(),
+                // scrollDirection: Axis.horizontal,
+                title: "Customer 2 @name#",
+                searchField: "name",
+                subtitle: "Branch: @branch_name#"
+                    "\nKSH @total_price#"
+                    "\n@created#"
+                    "\nThemiadaidoa diajod aodnoad adnad nadioad aidoad aidoad adiaod adoadh this is the end of the line.",
+                trailing: "",
+                localJsonApi: LocalTableJSONAPI(
+                  getData: ({path, required queryParams}) async {
+                    var pageSize = int.parse(queryParams["page_size"]);
+                    var page = int.parse(queryParams["page"]);
+
+                    dprint(queryParams);
+                    return {
+                      "previous": null,
+                      "next": 2,
+                      "count": pageSize,
+                      "results": List.generate(
+                          pageSize,
+                          (index) => {
+                                "category_name": "Page ${page}",
+                                "sub_category_name": "Item ${index + 1}",
+                                "name": "Micha ${index + 1}. Page ${page}"
+                              }).toList()
+                    };
+                  },
+                )),
             name: 'sliverslaes',
             headers: [
               'branch_name',

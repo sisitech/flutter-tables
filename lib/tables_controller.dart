@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tables/tables_connect.dart';
 import 'package:flutter_utils/flutter_utils.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_utils/text_view/text_view.dart';
 import 'package:flutter_utils/text_view/text_view_extensions.dart';
 import 'package:get/get.dart';
 import 'tables_models.dart';
+import 'package:http/http.dart' as http;
 
 const successStatusCodes = [200, 201, 204];
 
@@ -252,6 +255,7 @@ class TableController extends GetxController {
                       deleteErrorMEssage.value = "";
                       var delRes = await tableProv.tablesDelete(
                           getInstanceUrl(), item["id"]);
+
                       dprint(delRes.statusCode);
                       if (delRes.statusCode == 204) {
                         dprint("Deleted !!!!");
@@ -332,7 +336,27 @@ class TableController extends GetxController {
         dprint(getQueryParams());
         dprint(listTypeUrl);
         isLoading.value = true;
-        var res = await tableProv.formGet(listTypeUrl, query: getQueryParams());
+        Response res;
+        if (options?.localJsonApi != null) {
+          var statusCode = 200;
+          var response = {};
+          try {
+            response = await options!.localJsonApi!
+                .getData(queryParams: getQueryParams(), path: listTypeUrl);
+          } catch (e) {
+            response = {"detail": "Failed"};
+            statusCode = 400;
+          }
+          res = Response<dynamic>(
+              body: response,
+              bodyString: jsonEncode(response),
+              statusCode: statusCode,
+              headers: {
+                'Content-Type': 'application/json',
+              });
+        } else {
+          res = await tableProv.formGet(listTypeUrl, query: getQueryParams());
+        }
         entireBody = res;
         isLoading.value = false;
         dprint(res.statusCode);

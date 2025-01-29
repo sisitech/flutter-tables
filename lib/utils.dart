@@ -7,7 +7,7 @@ updateFilterArgs(
     TableController? controller,
     MyTableOptions? options}) async {
   String? fieldName = options?.searchField;
-  dprint("Value is $value");
+  // dprint("Value is $value");
   if (value.isEmpty) {
     var noKeys = controller?.searchArgs?.keys.toList();
     if (noKeys?.contains(options?.searchField) ?? false) {
@@ -18,7 +18,7 @@ updateFilterArgs(
     if (noKeys?.length == 0) {
       Map<String, dynamic> searchArgs = {};
       searchArgs[options?.searchField ?? ""] = value;
-      dprint(searchArgs);
+      // dprint(searchArgs);
       controller?.searchArgs = searchArgs;
     } else {
       controller?.searchArgs[options?.searchField ?? ""] = value;
