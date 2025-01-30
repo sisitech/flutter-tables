@@ -24,5 +24,6 @@ updateFilterArgs(
       controller?.searchArgs[options?.searchField ?? ""] = value;
     }
   }
+  controller?.page = 1;
   await controller?.getData(isLoadMore: false);
 }

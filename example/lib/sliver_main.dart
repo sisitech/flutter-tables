@@ -69,12 +69,13 @@ class MainSliverApp extends StatelessWidget {
                     dprint(queryParams);
                     return {
                       "previous": null,
-                      "next": 2,
+                      "next": null,
                       "count": pageSize,
                       "results": List.generate(
                           pageSize,
                           (index) => {
-                                "category_name": "Page ${page}",
+                                "category_name": "Page${page}",
+                                "my_id": "${index}${page}",
                                 "sub_category_name": "Item ${index + 1}",
                                 "name": "Micha ${index + 1}. Page ${page}"
                               }).toList()
